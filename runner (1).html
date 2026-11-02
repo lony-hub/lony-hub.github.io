@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LONY Projects - Code Runner</title>
+<style>
+:root{--bg:#0f172a;--card:#1e293b;--acc:#22c55e;--tx:#e2e8f0;--mu:#94a3b8}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,sans-serif;background:var(--bg);color:var(--tx)}
+header{padding:14px 16px;background:var(--card);display:flex;align-items:center;justify-content:space-between}
+header h1{font-size:18px;margin:0}header span{color:var(--acc)}
+main{padding:12px;max-width:900px;margin:auto}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px}
+.tab{flex:0 0 auto;padding:10px 16px;border-radius:20px;border:1px solid #334155;background:var(--card);color:var(--tx);font-size:15px}
+.tab.on{background:var(--acc);color:#052e16;font-weight:700;border-color:var(--acc)}
+textarea{width:100%;background:#0b1220;color:#e2e8f0;border:1px solid #334155;border-radius:10px;padding:10px;font:14px/1.5 ui-monospace,Menlo,monospace;tab-size:2;resize:vertical}
+#code{height:300px}
+#inp{height:60px}
+label{display:block;margin:10px 0 4px;color:var(--mu);font-size:13px}
+.row{display:flex;gap:8px;margin:10px 0}
+button.act{flex:1;padding:14px;border:0;border-radius:10px;font-size:16px;font-weight:700}
+#run{background:var(--acc);color:#052e16}
+#clr{background:#334155;color:var(--tx);flex:0 0 90px}
+#out{background:#000;border-radius:10px;padding:10px;min-height:120px;white-space:pre-wrap;word-break:break-word;font:14px/1.5 ui-monospace,monospace;color:#d1fae5}
+#out .err{color:#fca5a5}
+#prev{width:100%;height:320px;border:1px solid #334155;border-radius:10px;background:#fff;display:none}
+.note{color:var(--mu);font-size:12px;margin-top:10px}
+</style>
+</head>
+<body>
+<header><h1>LONY <span>Projects</span> • Code Runner</h1><a href="index.html" style="color:var(--acc);font-size:14px">← Home</a></header>
+<main>
+<div class="tabs" id="tabs"></div>
+<textarea id="code" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea>
+<div id="inpWrap"><label>Input (for cin / input(), one value per line)</label><textarea id="inp" spellcheck="false"></textarea></div>
+<div class="row"><button class="act" id="run">▶ Run</button><button class="act" id="clr">Clear</button></div>
+<label>Output</label>
+<iframe id="prev" sandbox="allow-scripts allow-modals"></iframe>
+<div id="out">Press Run to see the output...</div>
+<p class="note">Python takes 5-10 seconds to load the first time (internet required). C++ supports basic programs only (cin/cout, loops, functions, arrays).</p>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/JSCPP@2.0.9/dist/JSCPP.es5.min.js"></script>
+<script>
+const S={
+html:`<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body{font-family:sans-serif;text-align:center}
+  h1{color:teal}
+</style>
+</head>
+<body>
+  <h1>Hello LONY 👋</h1>
+  <button onclick="alert('Hello!')">Click me</button>
+</body>
+</html>`,
+cpp:`#include <iostream>
+using namespace std;
+
+int main() {
+  int n;
+  cout << "Enter a number: ";
+  cin >> n;
+  for (int i = 1; i <= 5; i++) {
+    cout << n << " x " << i << " = " << n * i << endl;
+  }
+  return 0;
+}`,
+js:`const nums = [1, 2, 3, 4, 5];
+const sq = nums.map(n => n * n);
+console.log("Squares:", sq);
+console.log("Hello LONY!");`,
+py:`name = input("What is your name? ")
+print("Hello", name)
+for i in range(1, 6):
+    print(i, "x 2 =", i * 2)`
+};
+const L={html:"HTML/CSS/JS",cpp:"C++",js:"JavaScript",py:"Python"};
+let cur="html",py=null;
+const $=id=>document.getElementById(id);
+const code=$("code"),out=$("out"),prev=$("prev"),inp=$("inp");
+function load(l){
+  try{localStorage.setItem("c_"+cur,code.value)}catch(e){}
+  cur=l;
+  let saved=null;try{saved=localStorage.getItem("c_"+l)}catch(e){}
+  code.value=saved||S[l];
+  document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("on",t.dataset.l===l));
+  $("inpWrap").style.display=(l==="cpp"||l==="py")?"block":"none";
+  prev.style.display=l==="html"?"block":"none";
+  out.style.display=l==="html"?"none":"block";
+  out.textContent="";
+}
+Object.keys(L).forEach(k=>{const b=document.createElement("button");b.className="tab";b.dataset.l=k;b.textContent=L[k];b.onclick=()=>load(k);$("tabs").appendChild(b)});
+code.addEventListener("keydown",e=>{if(e.key==="Tab"){e.preventDefault();const s=code.selectionStart;code.setRangeText("  ",s,code.selectionEnd,"end")}});
+function log(t,err){const s=document.createElement("span");if(err)s.className="err";s.textContent=t;out.appendChild(s)}
+window.addEventListener("message",e=>{if(e.data&&e.data.lony){log(e.data.m+"\n",e.data.e)}});
+const bridge=`<script>
+['log','warn','error','info'].forEach(k=>{const o=console[k];console[k]=(...a)=>{parent.postMessage({lony:1,e:k==='error',m:a.map(x=>typeof x==='object'?JSON.stringify(x):String(x)).join(' ')},'*')}});
+window.onerror=(m,s,l)=>{parent.postMessage({lony:1,e:true,m:'Error: '+m+' (line '+l+')'},'*')};
+<\/script>`;
+async function run(){
+  try{localStorage.setItem("c_"+cur,code.value)}catch(e){}
+  const src=code.value;
+  if(cur==="html"){prev.srcdoc=src;return}
+  out.textContent="";
+  if(cur==="js"){
+    out.style.display="block";
+    prev.style.display="block";prev.style.height="1px";prev.style.border="0";
+    prev.srcdoc="<html><body>"+bridge+"<script>try{"+src.replace(/<\/script>/gi,"<\\/script>")+"}catch(e){console.error(e.message)}<\/script></body></html>";
+    return;
+  }
+  if(cur==="cpp"){
+    if(!window.JSCPP){log("C++ engine failed to load. Please check your internet.\n",1);return}
+    try{
+      const ex=JSCPP.run(src,inp.value,{stdio:{write:s=>log(s)},maxTimeout:5000});
+      log("\n[exit code "+ex+"]");
+    }catch(e){log("\nError: "+(e.message||e)+"\n",1)}
+    return;
+  }
+  if(cur==="py"){
+    log("Loading Python...\n");
+    try{
+      if(!py){
+        if(!window.loadPyodide){await new Promise((r,j)=>{const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js";s.onload=r;s.onerror=j;document.head.appendChild(s)})}
+        py=await loadPyodide();
+      }
+      out.textContent="";
+      const lines=inp.value.split("\n");let i=0;
+      py.setStdin({stdin:()=>i<lines.length?lines[i++]:undefined});
+      py.setStdout({batched:s=>log(s+"\n")});
+      py.setStderr({batched:s=>log(s+"\n",1)});
+      await py.runPythonAsync(src);
+    }catch(e){log("\n"+(e.message||e)+"\n",1)}
+  }
+}
+$("run").onclick=run;
+$("clr").onclick=()=>{out.textContent="";if(cur==="html")prev.srcdoc=""};
+load("html");
+</script>
+<script>
+(function(){try{var t=localStorage.getItem("lony_theme");var M={indigo:["#07090e","#141b26","#818cf8"],cyber:["#050810","#0f1726","#00e5ff"],emerald:["#040d0a","#0e1d18","#34d399"],sunset:["#0f0705","#211410","#fb923c"],gold:["#0b0905","#1d170d","#fbbf24"],ocean:["#040e14","#0d1e29","#38bdf8"],rose:["#0e050b","#20101a","#f472b6"]};var m=M[t];if(!m)return;var r=document.documentElement.style;r.setProperty("--bg",m[0]);r.setProperty("--card",m[1]);r.setProperty("--acc",m[2]);var s=document.createElement("style");s.textContent="#run,.tab.on{color:#0b0b12!important}.tab.on{box-shadow:0 0 14px "+m[2]+"99}#run{box-shadow:0 0 18px "+m[2]+"99}header h1 span{text-shadow:0 0 12px "+m[2]+"}";document.head.appendChild(s)}catch(e){}})();
+</script>
+</body>
+</html>
