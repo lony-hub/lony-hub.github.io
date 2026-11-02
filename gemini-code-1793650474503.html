@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LONY Projects - Polytechnic Student Project Hub</title>
+  <meta name="theme-color" content="#07090e" id="tc">
+  <script>try{var _t=localStorage.getItem("lony_theme");if(_t)document.documentElement.setAttribute("data-theme",_t)}catch(e){}</script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    
+    :root {
+      --bg-base: #07090e; --bg-surface: #0f141d; --bg-card: #141b26; --bg-card-hover: #1c2533;
+      --border-subtle: #212c3d; --text-main: #f8fafc; --text-muted: #94a3b8;
+      --neon-indigo: #6366f1; --neon-cyan: #06b6d4; --neon-emerald: #10b981; --neon-amber: #f59e0b; --neon-purple: #a855f7;
+      --radius-sm: 10px; --radius-md: 18px; --radius-lg: 28px;
+      --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.5); --shadow-glow: 0 0 25px rgba(var(--a-rgb), 0.2);
+    }
+
+    body { background-color: var(--bg-base); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+    .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+    .section { padding: 56px 0; }
+    .section-title { font-size: 1.65rem; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 6px; background: linear-gradient(135deg, #ffffff 30%, var(--text-muted) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .section-subtitle { font-size: 0.92rem; color: var(--text-muted); margin-bottom: 28px; }
+
+    /* Navbar */
+    .navbar { background-color: rgba(15, 20, 29, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border-subtle); padding: 14px 16px; }
+    .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1100px; margin: 0 auto; }
+    .brand-logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.25rem; color: var(--text-main); }
+    .logo-badge { background: linear-gradient(135deg, var(--neon-indigo), var(--neon-purple)); color: #fff; padding: 5px 12px; border-radius: var(--radius-sm); font-size: 0.8rem; font-weight: 900; }
+    .nav-links { display: flex; gap: 20px; list-style: none; align-items: center; }
+    .nav-links a { font-size: 0.88rem; color: var(--text-muted); font-weight: 600; transition: color 0.2s ease; }
+    .nav-links a:hover { color: var(--neon-cyan); }
+
+    /* Hero */
+    .hero { padding: 56px 0 36px 0; text-align: center; position: relative; }
+    .hero-pill { display: inline-flex; align-items: center; gap: 6px; background: rgba(var(--a-rgb), 0.12); border: 1px solid rgba(var(--a-rgb), 0.3); color: var(--a-soft); font-size: 0.78rem; font-weight: 700; padding: 6px 16px; border-radius: 50px; margin-bottom: 22px; text-transform: uppercase; }
+    .hero-title { font-size: 2.2rem; font-weight: 900; line-height: 1.2; margin-bottom: 16px; background: linear-gradient(90deg, #ffffff 0%, var(--neon-cyan) 30%, var(--neon-purple) 60%, #ffffff 100%); background-size: 300% 100%; animation: titleFlow 8s linear infinite; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-subtext { font-size: 0.98rem; color: var(--text-muted); max-width: 580px; margin: 0 auto 32px auto; }
+
+    .btn-primary { background: linear-gradient(135deg, var(--neon-indigo), var(--a-deep)); color: #fff; padding: 14px 26px; border-radius: 50px; font-weight: 700; display: inline-block; text-align: center; box-shadow: 0 8px 25px rgba(var(--a-rgb), 0.35); transition: transform 0.2s ease; }
+    .btn-primary:hover { transform: translateY(-2px); }
+
+    /* Stats */
+    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 22px 14px; margin: 36px 0 20px 0; text-align: center; }
+    .stat-number { font-size: 1.5rem; font-weight: 900; background: linear-gradient(135deg, var(--neon-cyan), var(--neon-indigo)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .stat-label { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; margin-top: 4px; font-weight: 600; }
+
+    /* Departments */
+    .dept-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .dept-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 18px; font: inherit; color: inherit; text-align: left; cursor: pointer; transition: transform 0.25s ease, border-color 0.25s ease; }
+    .dept-card:hover, .dept-card.active { transform: translateY(-4px); border-color: var(--neon-indigo); background: var(--bg-card-hover); }
+    .dept-icon { font-size: 1.6rem; margin-bottom: 10px; }
+    .dept-title { font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
+    .dept-count { font-size: 0.75rem; color: var(--text-muted); }
+
+    /* Filters & Projects */
+    .filter-chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 20px; }
+    .chip { background: var(--bg-card); border: 1px solid var(--border-subtle); color: var(--text-muted); padding: 8px 18px; border-radius: 50px; font-size: 0.85rem; font-weight: 600; cursor: pointer; }
+    .chip.active { background: linear-gradient(135deg, var(--neon-indigo), var(--neon-purple)); color: #fff; border-color: transparent; }
+
+    .projects-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    .project-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 22px; display: flex; flex-direction: column; justify-content: space-between; }
+    .project-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 10px; }
+    .project-title { font-size: 1.08rem; font-weight: 700; color: var(--text-main); }
+    .tag-beginner { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.3); padding: 4px 10px; border-radius: var(--radius-sm); font-size: 0.68rem; font-weight: 700; }
+    .tag-intermediate { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.3); padding: 4px 10px; border-radius: var(--radius-sm); font-size: 0.68rem; font-weight: 700; }
+    .tag-final { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(192, 132, 252, 0.3); padding: 4px 10px; border-radius: var(--radius-sm); font-size: 0.68rem; font-weight: 700; }
+    .project-desc { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 20px; }
+    .project-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-subtle); padding-top: 14px; margin-top: auto; }
+    .project-price { font-weight: 800; font-size: 1.1rem; color: var(--neon-cyan); }
+    .btn-card { background: rgba(var(--a-rgb), 0.12); color: var(--a-soft); border: 1px solid rgba(var(--a-rgb), 0.3); padding: 8px 18px; border-radius: 50px; font-size: 0.82rem; font-weight: 700; cursor: pointer; }
+    
+    .ptags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+    .ptag { font-size: 0.7rem; color: var(--text-muted); border: 1px solid var(--border-subtle); border-radius: 50px; padding: 2px 10px; }
+    .dept-group { margin-bottom: 36px; }
+    .dept-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border-subtle); }
+    .dept-head h3 { font-size: 1.2rem; font-weight: 800; color: var(--text-main); }
+    .dept-head span { font-size: 0.78rem; font-weight: 700; color: var(--a-soft); background: rgba(var(--a-rgb),.12); border: 1px solid rgba(var(--a-rgb),.35); border-radius: 50px; padding: 4px 12px; }
+
+    .promo-card { background: linear-gradient(135deg, rgba(var(--a-rgb), 0.2), rgba(var(--c-rgb), 0.15)); border: 1px solid rgba(var(--a-rgb), 0.4); border-radius: var(--radius-lg); padding: 36px 20px; text-align: center; }
+    .promo-title { font-size: 1.4rem; font-weight: 800; margin-bottom: 10px; }
+    .promo-desc { font-size: 0.92rem; color: var(--text-muted); margin-bottom: 24px; }
+
+    /* Footer */
+    .footer { border-top: 1px solid var(--border-subtle); padding: 40px 0; text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 40px; }
+    .footer-links { display: flex; justify-content: center; gap: 20px; margin-bottom: 18px; list-style: none; }
+
+    /* Theme Switcher */
+    .theme-btn { background: var(--bg-card); border: 1px solid var(--border-subtle); color: var(--text-main); width: 40px; height: 40px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; }
+    .theme-panel { position: fixed; top: 68px; right: 12px; z-index: 150; width: min(300px, calc(100vw - 24px)); background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 12px; display: none; }
+    .theme-panel.on { display: block; }
+    .theme-opt { display: flex; align-items: center; gap: 12px; width: 100%; background: transparent; border: 1px solid transparent; color: var(--text-main); padding: 9px 10px; border-radius: 12px; font-weight: 600; cursor: pointer; text-align: left; }
+    .theme-opt.on, .theme-opt:hover { border-color: var(--neon-indigo); background: var(--bg-card-hover); }
+    .sw { width: 30px; height: 30px; border-radius: 50%; }
+
+    /* Theme Variables */
+    :root { --a-rgb: 99,102,241; --b-rgb: 168,85,247; --c-rgb: 6,182,212; --a-soft: #818cf8; --a-deep: #4f46e5; }
+    html[data-theme="indigo"] { --bg-base: #07090e; --bg-surface: #0f141d; --bg-card: #141b26; --bg-card-hover: #1c2533; --border-subtle: #212c3d; --neon-indigo: #6366f1; --neon-purple: #a855f7; --neon-cyan: #06b6d4; --a-rgb: 99,102,241; --a-soft: #818cf8; --a-deep: #4f46e5; }
+    html[data-theme="cyber"] { --bg-base: #050810; --bg-surface: #0b111c; --bg-card: #0f1726; --bg-card-hover: #162238; --border-subtle: #1c2b45; --neon-indigo: #00e5ff; --neon-purple: #ff2bd6; --neon-cyan: #00ffa3; --a-rgb: 0,229,255; --a-soft: #5eead4; --a-deep: #0891b2; }
+    html[data-theme="emerald"] { --bg-base: #040d0a; --bg-surface: #0a1612; --bg-card: #0e1d18; --bg-card-hover: #15291f; --border-subtle: #1a3328; --neon-indigo: #10b981; --neon-purple: #84cc16; --neon-cyan: #22d3ee; --a-rgb: 16,185,129; --a-soft: #34d399; --a-deep: #059669; }
+
+    @media (min-width: 640px) {
+      .hero-title { font-size: 2.8rem; }
+      .dept-grid { grid-template-columns: repeat(4, 1fr); }
+      .projects-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 900px) { .projects-grid { grid-template-columns: repeat(4, 1fr); } }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="brand-logo"><span class="logo-badge">LONY</span> Projects</a>
+      <ul class="nav-links">
+        <li><a href="#projects">Projects</a></li>
+        <li class="rn" style="display:none"><a href="runner.html">Code Runner</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+      </ul>
+      <button class="theme-btn" id="tbtn" type="button" aria-label="Change theme">🎨</button>
+    </div>
+  </nav>
+  <div class="theme-panel" id="tp"></div>
+
+  <div class="container">
+    <section class="hero">
+      <div class="hero-pill">⚡ Built for TN Polytechnic Students</div>
+      <h1 class="hero-title">Ready-to-Build Academic & Diploma Projects</h1>
+      <p class="hero-subtext">Discover complete source code, circuit diagrams, documentation, and step-by-step guides for Web, CSE, EEE, Mechanical, Robotics, and Logistics branches.</p>
+      <a href="#projects" class="btn-primary">Explore Projects</a>
+    </section>
+
+    <div class="stats-row">
+      <div><div class="stat-number" id="cnt">0</div><div class="stat-label">Projects</div></div>
+      <div><div class="stat-number">7</div><div class="stat-label">Departments</div></div>
+      <div><div class="stat-number">Free</div><div class="stat-label">Free Tools</div></div>
+    </div>
+
+    <section class="section">
+      <h2 class="section-title">Departments</h2>
+      <p class="section-subtitle">Tap a department to filter projects. Tap again to clear.</p>
+
+      <div class="dept-grid">
+        <button class="dept-card" type="button" data-b="web"><div class="dept-icon">💻</div><div class="dept-title">Web Designing</div><div class="dept-count" data-c="web">0 Projects</div></button>
+        <button class="dept-card" type="button" data-b="cse"><div class="dept-icon">⚡</div><div class="dept-title">CSE</div><div class="dept-count" data-c="cse">0 Projects</div></button>
+        <button class="dept-card" type="button" data-b="eee"><div class="dept-icon">🔌</div><div class="dept-title">EEE</div><div class="dept-count" data-c="eee">0 Projects</div></button>
+        <button class="dept-card" type="button" data-b="mech"><div class="dept-icon">⚙️</div><div class="dept-title">Mechanical</div><div class="dept-count" data-c="mech">0 Projects</div></button>
+        <button class="dept-card" type="button" data-b="sand"><div class="dept-icon">🏭</div><div class="dept-title">Mechanical Sandwich</div><div class="dept-count" data-c="sand">0 Projects</div></button>
+        <button class="dept-card" type="button" data-b="robo"><div class="dept-icon">🤖</div><div class="dept-title">Robotics</div><div class="dept-count" data-c="robo">0 Projects</div></button>
+        <button class="dept-card" type="button" data-b="logi"><div class="dept-icon">📦</div><div class="dept-title">Logistics</div><div class="dept-count" data-c="logi">0 Projects</div></button>
+      </div>
+    </section>
+
+    <section class="section" id="projects">
+      <h2 class="section-title">Projects</h2>
+      <p class="section-subtitle">Download full source code, schematics, and presentation files.</p>
+
+      <div class="filter-chips" id="chips">
+        <button class="chip active" type="button" data-l="all">All</button>
+        <button class="chip" type="button" data-l="Beginner">Beginner</button>
+        <button class="chip" type="button" data-l="Intermediate">Intermediate</button>
+        <button class="chip" type="button" data-l="Final Year">Final Year</button>
+      </div>
+
+      <div id="list"></div>
+    </section>
+
+    <section class="section" id="code-runner" style="display:none">
+      <div class="promo-card">
+        <h2 class="promo-title">Test Code Directly in Your Browser</h2>
+        <p class="promo-desc">Use our mobile-first Code Runner tool to run HTML, JavaScript, C++ and Python directly on your smartphone.</p>
+        <a href="runner.html" class="btn-primary">Launch Code Runner</a>
+      </div>
+    </section>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <p>© 2026 LONY Projects. Built for Tamil Nadu Polytechnic Diploma Students.</p>
+    </div>
+  </footer>
+
+  <script>
+  const P=[
+    {b:"web",t:"Portfolio Website",l:"Beginner",d:"Show your skills and projects online.",tg:["HTML", "CSS"],p:0},
+    {b:"web",t:"College Website",l:"Beginner",d:"Departments, news and contact pages.",tg:["HTML", "CSS"],p:150},
+    {b:"cse",t:"Quiz App",l:"Beginner",d:"Timed quiz with score and result.",tg:["JS", "Quiz"],p:0},
+    {b:"eee",t:"Automatic Night Lamp using LDR",l:"Beginner",d:"Lamp turns on in the dark by itself.",tg:["LDR", "Transistor"],p:0},
+    {b:"mech",t:"Hydraulic Lift Model using Syringes",l:"Beginner",d:"Lift a load using water and syringes.",tg:["Hydraulics", "Model"],p:0},
+    {b:"robo",t:"Bluetooth Controlled Car",l:"Intermediate",d:"Drive the car from a phone app.",tg:["Arduino", "Bluetooth"],p:150},
+    {b:"logi",t:"Vehicle Tracking Dashboard",l:"Final Year",d:"GPS location, route history and status.",tg:["GPS", "Maps"],p:999}
+  ];
+  const NAMES={web:"Web Designing",cse:"CSE",eee:"EEE",mech:"Mechanical",sand:"Mechanical Sandwich",robo:"Robotics",logi:"Logistics"};
+  const $=id=>document.getElementById(id);
+  let br="all",lv="all";
+
+  function render(){
+    const r=P.filter(x=>(br==="all"||x.b===br)&&(lv==="all"||x.l===lv));
+    const card=x=>`<div class="project-card"><div><div class="project-header"><h3 class="project-title">${x.t}</h3><span class="tag-${x.l.toLowerCase().replace(' ','')}">${x.l}</span></div><p class="project-desc">${x.d}</p><div class="ptags">${x.tg.map(t=>`<span class="ptag">${t}</span>`).join("")}</div></div><div class="project-footer"><span class="project-price">${x.p?"₹"+x.p:"Free"}</span><button type="button" class="btn-card" data-t="${x.t}">View Project</button></div></div>`;
+    
+    $("list").innerHTML=Object.keys(NAMES).map(d=>{
+      const g=r.filter(x=>x.b===d);
+      return g.length?`<div class="dept-group"><div class="dept-head"><h3>${NAMES[d]}</h3><span>${g.length} Projects</span></div><div class="projects-grid">${g.map(card).join("")}</div></div>`:""
+    }).join("");
+
+    const rn=br==="web"||br==="cse";
+    $("code-runner").style.display=rn?"":"none";
+    document.querySelectorAll(".rn").forEach(el=>el.style.display=rn?"":"none");
+  }
+
+  document.querySelectorAll(".dept-card").forEach(d=>d.onclick=()=>{
+    br=br===d.dataset.b?"all":d.dataset.b;
+    document.querySelectorAll(".dept-card").forEach(x=>x.classList.toggle("active",x.dataset.b===br));
+    render();
+  });
+
+  document.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{
+    lv=c.dataset.l;
+    document.querySelectorAll(".chip").forEach(x=>x.classList.toggle("active",x===c));
+    render();
+  });
+
+  $("list").addEventListener("click",e=>{
+    const b=e.target.closest("button[data-t]");
+    if(b) location.href="project.html?t="+encodeURIComponent(b.dataset.t);
+  });
+
+  $("cnt").textContent=P.length+"";
+  document.querySelectorAll("[data-c]").forEach(el=>{
+    const n=P.filter(x=>x.b===el.dataset.c).length;
+    el.textContent=n+" Projects";
+  });
+  render();
+  </script>
+</body>
+</html>
