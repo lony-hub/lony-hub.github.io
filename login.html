@@ -65,7 +65,7 @@ h1{font-size:1.45rem;font-weight:800;letter-spacing:-.4px;margin-bottom:4px}
     </div>
 
     <div id="panel" role="tabpanel">
-      <div class="warn" id="cfgwarn" hidden>Firebase setup pending. <b>auth.js</b> la FIREBASE_CONFIG fill pannunga (FIREBASE_SETUP.md paarunga).</div>
+      <div class="warn" id="cfgwarn" hidden>Firebase setup pending. Fill in FIREBASE_CONFIG in <b>auth.js</b> (see FIREBASE_SETUP.md).</div>
 
       <div id="signedout">
         <h1 id="ttl"></h1>
@@ -102,11 +102,11 @@ const nextParam = params.get("next");
 
 const COPY = {
   signin: { t: "Welcome back", s: "Sign in with your Google account to continue.", b: "Sign in with Google",
-            n: "Account illa na? Sign up tab use pannunga." },
+            n: "Don't have an account? Use the Sign up tab." },
   signup: { t: "Create your account", s: "One tap with Google. No password to remember.", b: "Sign up with Google",
-            n: "Already account irundha, direct ah sign in aagidum." },
+            n: "If you already have an account, you'll simply be signed in." },
   admin:  { t: "Admin login", s: "Only approved admin Google accounts can enter the Admin panel.", b: "Admin sign in with Google",
-            n: "Admin illadha accounts ku access kedaikaadhu." }
+            n: "Accounts that are not admins cannot get access." }
 };
 
 let mode = ["signin", "signup", "admin"].includes(params.get("mode")) ? params.get("mode") : "signin";
