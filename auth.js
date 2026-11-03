@@ -89,14 +89,14 @@ export async function listUsers(max = 200) {
 
 export function friendlyError(e) {
   const c = (e && e.code) || "";
-  if (c === "lony/not-configured") return "Firebase config innum fill pannala. auth.js la FIREBASE_CONFIG paste pannunga.";
-  if (c === "lony/not-admin") return (e.email || "Indha account") + " admin list la illa. Admin Google account la sign in pannunga.";
-  if (c === "auth/popup-closed-by-user" || c === "auth/cancelled-popup-request") return "Sign in cancel aayiduchu. Marupadi try pannunga.";
-  if (c === "auth/popup-blocked") return "Browser popup block pannuthu. Popup allow pannitu marupadi try pannunga.";
-  if (c === "auth/unauthorized-domain") return "Indha domain Firebase la authorized illa. Authentication > Settings > Authorized domains la add pannunga.";
-  if (c === "auth/network-request-failed") return "Internet connection check pannunga.";
-  if (c === "permission-denied" || c === "firestore/permission-denied") return "Firestore rules indha account ku data paaka allow pannala.";
-  return "Sign in fail aachu (" + (c || "unknown") + "). Marupadi try pannunga.";
+  if (c === "lony/not-configured") return "Firebase config is not filled in yet. Paste your FIREBASE_CONFIG into auth.js.";
+  if (c === "lony/not-admin") return (e.email || "This account") + " is not in the admin list. Please sign in with an admin Google account.";
+  if (c === "auth/popup-closed-by-user" || c === "auth/cancelled-popup-request") return "Sign in was cancelled. Please try again.";
+  if (c === "auth/popup-blocked") return "Your browser blocked the popup. Allow popups and try again.";
+  if (c === "auth/unauthorized-domain") return "This domain is not authorized in Firebase. Add it under Authentication > Settings > Authorized domains.";
+  if (c === "auth/network-request-failed") return "Please check your internet connection.";
+  if (c === "permission-denied" || c === "firestore/permission-denied") return "Firestore rules do not allow this account to view the data.";
+  return "Sign in failed (" + (c || "unknown") + "). Please try again.";
 }
 
 /* Navbar button for index.html: Login when signed out, avatar menu when signed in */
