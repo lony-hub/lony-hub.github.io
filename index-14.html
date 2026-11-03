@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LONY Projects - Polytechnic Student Project Hub</title>
+  <meta name="theme-color" content="#07090e" id="tc">
+  <script>try{var _t=localStorage.getItem("lony_theme");if(_t)document.documentElement.setAttribute("data-theme",_t)}catch(e){}</script>
+  <style>
+    /* Ultra-Premium Design Tokens */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    
+    :root {
+      --bg-base: #07090e;
+      --bg-surface: #0f141d;
+      --bg-card: #141b26;
+      --bg-card-hover: #1c2533;
+      --border-subtle: #212c3d;
+      --border-glow: rgba(var(--a-rgb), 0.4);
+      
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      
+      --neon-indigo: #6366f1;
+      --neon-cyan: #06b6d4;
+      --neon-emerald: #10b981;
+      --neon-amber: #f59e0b;
+      --neon-purple: #a855f7;
+      
+      --radius-sm: 10px;
+      --radius-md: 18px;
+      --radius-lg: 28px;
+      
+      --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+      --shadow-glow: 0 0 25px rgba(var(--a-rgb), 0.2);
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 0;
+      margin: 0;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    .section {
+      padding: 56px 0;
+    }
+
+    .section-title {
+      font-size: 1.65rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+      background: linear-gradient(135deg, #ffffff 30%, var(--text-muted) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .section-subtitle {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+    }
+
+    /* 1. Navbar */
+    .navbar {
+      background-color: rgba(15, 20, 29, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 14px 16px;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: var(--text-main);
+      letter-spacing: -0.5px;
+    }
+
+    .logo-badge {
+      background: linear-gradient(135deg, var(--neon-indigo), var(--neon-purple));
+      color: #fff;
+      padding: 5px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      font-weight: 900;
+      box-shadow: 0 0 15px rgba(var(--a-rgb), 0.4);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--neon-cyan);
+    }
+
+    /* 2. Hero Section */
+    .hero {
+      padding: 56px 0 36px 0;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 280px;
+      height: 280px;
+      background: radial-gradient(circle, rgba(var(--a-rgb), 0.15) 0%, rgba(var(--c-rgb), 0.05) 70%, transparent 100%);
+      z-index: -1;
+      border-radius: 50%;
+      filter: blur(40px);
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(var(--a-rgb), 0.12);
+      border: 1px solid rgba(var(--a-rgb), 0.3);
+      color: var(--a-soft);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 6px 16px;
+      border-radius: 50px;
+      margin-bottom: 22px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .hero-title {
+      font-size: 2.2rem;
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      background: linear-gradient(90deg, #ffffff 0%, var(--neon-cyan) 30%, var(--neon-purple) 60%, #ffffff 100%);
+      background-size: 300% 100%;
+      animation: titleFlow 8s linear infinite;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -1px;
+    }
+
+    .hero-subtext {
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      max-width: 580px;
+      margin: 0 auto 32px auto;
+      padding: 0 10px;
+    }
+
+    .search-box {
+      max-width: 500px;
+      margin: 0 auto 24px auto;
+      display: flex;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 50px;
+      padding: 6px 6px 6px 18px;
+      box-shadow: var(--shadow-glow);
+      transition: border-color 0.2s ease;
+    }
+
+    .search-box:focus-within {
+      border-color: var(--neon-indigo);
+    }
+
+    .search-input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-main);
+      font-size: 0.95rem;
+      width: 100%;
+    }
+
+    .search-input::placeholder {
+      color: #64748b;
+    }
+
+    .search-btn {
+      background: linear-gradient(135deg, var(--neon-indigo), var(--neon-purple));
+      color: #fff;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(var(--a-rgb), 0.4);
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .search-btn:hover {
+      opacity: 0.9;
+      transform: scale(1.02);
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      justify-content: center;
+      max-width: 340px;
+      margin: 0 auto;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--neon-indigo), var(--a-deep));
+      color: #fff;
+      padding: 14px 26px;
+      border-radius: 50px;
+      font-weight: 700;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(var(--a-rgb), 0.35);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(var(--a-rgb), 0.5);
+    }
+
+    .btn-secondary {
+      background: var(--bg-card);
+      color: var(--text-main);
+      border: 1px solid var(--border-subtle);
+      padding: 14px 26px;
+      border-radius: 50px;
+      font-weight: 700;
+      text-align: center;
+      transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--neon-cyan);
+      transform: translateY(-2px);
+    }
+
+    /* 3. Stats Row */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 22px 14px;
+      margin: 36px 0 20px 0;
+      text-align: center;
+      box-shadow: var(--shadow-card);
+    }
+
+    .stat-number {
+      font-size: 1.5rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--neon-cyan), var(--neon-indigo));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stat-label {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-top: 4px;
+      font-weight: 600;
+    }
+
+    /* 4. Department Cards */
+    .dept-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .dept-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, background 0.25s ease;
+    }
+
+    .dept-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--neon-indigo);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .dept-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--neon-indigo);
+      background: var(--bg-card-hover);
+      box-shadow: var(--shadow-card);
+    }
+
+    .dept-card:hover::before {
+      opacity: 1;
+    }
+
+    .dept-icon {
+      font-size: 1.6rem;
+      margin-bottom: 10px;
+    }
+
+    .dept-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .dept-count {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* 5. Filter Chips & Project Cards */
+    .filter-chips {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+      scrollbar-width: none;
+    }
+
+    .filter-chips::-webkit-scrollbar {
+      display: none;
+    }
+
+    .chip {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      padding: 8px 18px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .chip.active, .chip:hover {
+      background: linear-gradient(135deg, var(--neon-indigo), var(--neon-purple));
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 4px 15px rgba(var(--a-rgb), 0.3);
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(var(--a-rgb), 0.5);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
+    }
+
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      gap: 10px;
+    }
+
+    .project-title {
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.35;
+    }
+
+    .tag-beginner {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 0.68rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .tag-intermediate {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(251, 191, 36, 0.3);
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 0.68rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .tag-final {
+      background: rgba(168, 85, 247, 0.15);
+      color: #c084fc;
+      border: 1px solid rgba(192, 132, 252, 0.3);
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 0.68rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .project-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .project-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 14px;
+      margin-top: auto;
+    }
+
+    .project-price {
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--neon-cyan);
+    }
+
+    .btn-card {
+      background: rgba(var(--a-rgb), 0.12);
+      color: var(--a-soft);
+      border: 1px solid rgba(var(--a-rgb), 0.3);
+      padding: 8px 18px;
+      border-radius: 50px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      transition: all 0.2s ease;
+    }
+
+    .btn-card:hover {
+      background: linear-gradient(135deg, var(--neon-indigo), var(--neon-purple));
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 4px 15px rgba(var(--a-rgb), 0.4);
+    }
+
+    /* 6. Code Runner Promo Card */
+    .promo-card {
+      background: linear-gradient(135deg, rgba(var(--a-rgb), 0.2), rgba(var(--c-rgb), 0.15));
+      border: 1px solid rgba(var(--a-rgb), 0.4);
+      border-radius: var(--radius-lg);
+      padding: 36px 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 15px 40px rgba(var(--a-rgb), 0.15);
+    }
+
+    .promo-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      color: var(--text-main);
+    }
+
+    .promo-desc {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* 7. How It Works */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .step-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 22px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      transition: border-color 0.2s ease;
+    }
+
+    .step-card:hover {
+      border-color: var(--neon-cyan);
+    }
+
+    .step-num {
+      background: linear-gradient(135deg, var(--neon-indigo), var(--neon-cyan));
+      color: #fff;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      flex-shrink: 0;
+      box-shadow: 0 4px 15px rgba(var(--c-rgb), 0.3);
+    }
+
+    .step-content h3 {
+      font-size: 1.02rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--text-main);
+    }
+
+    .step-content p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    /* 8. Newsletter Form */
+    .newsletter-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 36px 20px;
+      text-align: center;
+      box-shadow: var(--shadow-card);
+    }
+
+    .newsletter-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .newsletter-input {
+      background: var(--bg-base);
+      border: 1px solid var(--border-subtle);
+      padding: 14px 18px;
+      border-radius: 50px;
+      color: var(--text-main);
+      font-size: 0.92rem;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .newsletter-input:focus {
+      border-color: var(--neon-indigo);
+      box-shadow: 0 0 15px rgba(var(--a-rgb), 0.2);
+    }
+
+    /* 9. Footer */
+    .footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 40px 0;
+      background-color: var(--bg-base);
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 18px;
+      list-style: none;
+    }
+
+    .footer-links a:hover {
+      color: var(--neon-cyan);
+    }
+
+    /* Responsive Breakpoints for Larger Screens */
+    @media (min-width: 640px) {
+      .hero-title {
+        font-size: 2.8rem;
+      }
+
+      .hero-buttons {
+        flex-direction: row;
+        max-width: none;
+      }
+
+      .dept-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .steps-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .step-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .newsletter-form {
+        flex-direction: row;
+        max-width: 480px;
+        margin: 20px auto 0 auto;
+      }
+
+      .newsletter-input {
+        flex: 1;
+      }
+    }
+
+    @media (min-width: 900px) {
+      .projects-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    /* Added: interactive states */
+    button.dept-card{font:inherit;color:inherit;text-align:left;width:100%;cursor:pointer}
+    .dept-card.active{border-color:var(--neon-indigo);background:var(--bg-card-hover);box-shadow:var(--shadow-glow)}
+    .dept-card.active::before{opacity:1}
+    @media (max-width: 639px){.dept-grid .dept-card:last-child{grid-column:1/-1}}
+    button.btn-card{font-family:inherit;cursor:pointer}
+    .ptags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+    .ptag{font-size:.7rem;color:var(--text-muted);border:1px solid var(--border-subtle);border-radius:50px;padding:2px 10px}
+    .dept-group{margin-bottom:36px}
+    .dept-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 14px;padding-bottom:10px;border-bottom:1px solid var(--border-subtle)}
+    .dept-head h3{font-size:1.2rem;font-weight:800;letter-spacing:-.3px;color:var(--text-main)}
+    .dept-head span{font-size:.78rem;font-weight:700;color:var(--a-soft,var(--neon-indigo));background:rgba(var(--a-rgb),.12);border:1px solid rgba(var(--a-rgb),.35);border-radius:50px;padding:4px 12px}
+    .af-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(var(--a-rgb),.12);border:1px solid rgba(var(--a-rgb),.4);color:var(--a-soft);border-radius:50px;padding:6px 8px 6px 14px;font-size:.85rem;font-weight:700;margin-bottom:14px}
+    .af-pill button{background:transparent;border:0;color:inherit;font-size:1rem;cursor:pointer;line-height:1}
+    .empty{display:none;text-align:center;color:var(--text-muted);border:1px dashed var(--border-subtle);border-radius:var(--radius-md);padding:28px 16px}
+    .ok{color:var(--neon-emerald);font-size:.85rem;margin-top:12px;min-height:18px}
+    #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--bg-card-hover);color:var(--text-main);border:1px solid var(--border-subtle);padding:12px 18px;border-radius:50px;font-size:.9rem;opacity:0;pointer-events:none;transition:.25s;z-index:200;max-width:90vw;text-align:center}
+    #toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+    html{scroll-behavior:smooth}
+
+    /* LONY logo: glow + shine */
+    .logo-badge{position:relative;overflow:hidden;font-size:.95rem;letter-spacing:1.5px;color:#fff;text-shadow:0 0 8px rgba(255,255,255,.9),0 0 18px rgba(255,255,255,.6);background:linear-gradient(135deg,var(--neon-indigo),var(--neon-purple),var(--neon-cyan),var(--neon-indigo));background-size:300% 300%;animation:lonyFlow 5s ease infinite,lonyGlow 2.4s ease-in-out infinite}
+    .logo-badge::after{content:"";position:absolute;top:0;left:-90%;width:45%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,.75),transparent);transform:skewX(-20deg);animation:lonyShine 3s ease-in-out infinite}
+    @keyframes lonyFlow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+    @keyframes lonyGlow{0%,100%{box-shadow:0 0 10px rgba(var(--a-rgb),.55),0 0 22px rgba(var(--b-rgb),.35)}50%{box-shadow:0 0 18px rgba(var(--a-rgb),.95),0 0 38px rgba(var(--c-rgb),.6)}}
+    @keyframes lonyShine{0%{left:-90%}55%,100%{left:140%}}
+    @media (prefers-reduced-motion:reduce){.logo-badge,.logo-badge::after{animation:none}}
+
+    /* ===== Themes ===== */
+    :root{--a-rgb:99,102,241;--b-rgb:168,85,247;--c-rgb:6,182,212;--a-soft:#818cf8;--a-deep:#4f46e5}
+    html[data-theme="indigo"]{--bg-base:#07090e;--bg-surface:#0f141d;--bg-card:#141b26;--bg-card-hover:#1c2533;--border-subtle:#212c3d;--neon-indigo:#6366f1;--neon-purple:#a855f7;--neon-cyan:#06b6d4;--a-rgb:99,102,241;--b-rgb:168,85,247;--c-rgb:6,182,212;--a-soft:#818cf8;--a-deep:#4f46e5}
+    html[data-theme="cyber"]{--bg-base:#050810;--bg-surface:#0b111c;--bg-card:#0f1726;--bg-card-hover:#162238;--border-subtle:#1c2b45;--neon-indigo:#00e5ff;--neon-purple:#ff2bd6;--neon-cyan:#00ffa3;--a-rgb:0,229,255;--b-rgb:255,43,214;--c-rgb:0,255,163;--a-soft:#5eead4;--a-deep:#0891b2}
+    html[data-theme="emerald"]{--bg-base:#040d0a;--bg-surface:#0a1612;--bg-card:#0e1d18;--bg-card-hover:#15291f;--border-subtle:#1a3328;--neon-indigo:#10b981;--neon-purple:#84cc16;--neon-cyan:#22d3ee;--a-rgb:16,185,129;--b-rgb:132,204,22;--c-rgb:34,211,238;--a-soft:#34d399;--a-deep:#059669}
+    html[data-theme="sunset"]{--bg-base:#0f0705;--bg-surface:#1a0f0b;--bg-card:#211410;--bg-card-hover:#2d1c15;--border-subtle:#3a2419;--neon-indigo:#f97316;--neon-purple:#ef4444;--neon-cyan:#facc15;--a-rgb:249,115,22;--b-rgb:239,68,68;--c-rgb:250,204,21;--a-soft:#fb923c;--a-deep:#ea580c}
+    html[data-theme="gold"]{--bg-base:#0b0905;--bg-surface:#16120a;--bg-card:#1d170d;--bg-card-hover:#292012;--border-subtle:#3a2e17;--neon-indigo:#f59e0b;--neon-purple:#fde047;--neon-cyan:#fb923c;--a-rgb:245,158,11;--b-rgb:253,224,71;--c-rgb:251,146,60;--a-soft:#fbbf24;--a-deep:#d97706}
+    html[data-theme="ocean"]{--bg-base:#040e14;--bg-surface:#09161e;--bg-card:#0d1e29;--bg-card-hover:#142c3a;--border-subtle:#1a3a4c;--neon-indigo:#0ea5e9;--neon-purple:#06b6d4;--neon-cyan:#2dd4bf;--a-rgb:14,165,233;--b-rgb:6,182,212;--c-rgb:45,212,191;--a-soft:#38bdf8;--a-deep:#0284c7}
+    html[data-theme="rose"]{--bg-base:#0e050b;--bg-surface:#190b14;--bg-card:#20101a;--bg-card-hover:#2d1625;--border-subtle:#3b1e30;--neon-indigo:#ec4899;--neon-purple:#a855f7;--neon-cyan:#fb7185;--a-rgb:236,72,153;--b-rgb:168,85,247;--c-rgb:251,113,133;--a-soft:#f472b6;--a-deep:#db2777}
+
+    /* ===== Ambient glow + shine ===== */
+    body{background-image:radial-gradient(520px 320px at 85% 0,rgba(var(--a-rgb),.18),transparent 70%),radial-gradient(480px 320px at 0 30%,rgba(var(--b-rgb),.12),transparent 70%);background-repeat:no-repeat;transition:background-color .3s}
+    @keyframes titleFlow{0%{background-position:0% 50%}100%{background-position:300% 50%}}
+    @keyframes btnShine{0%{left:-100%}60%,100%{left:170%}}
+    .btn-primary,.search-btn{position:relative;overflow:hidden}
+    .btn-primary::after,.search-btn::after{content:"";position:absolute;top:0;left:-100%;width:55%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,.4),transparent);transform:skewX(-20deg);animation:btnShine 4s ease-in-out infinite;pointer-events:none}
+    .stat-number{filter:drop-shadow(0 0 10px rgba(var(--a-rgb),.6))}
+    .dept-icon{filter:drop-shadow(0 0 8px rgba(var(--a-rgb),.7))}
+    .hero-pill{box-shadow:0 0 18px rgba(var(--a-rgb),.35)}
+    .section-title{filter:drop-shadow(0 0 12px rgba(var(--a-rgb),.25))}
+    .dept-card,.project-card,.step-card{box-shadow:0 0 0 1px rgba(var(--a-rgb),.05),0 8px 24px -12px rgba(var(--a-rgb),.3)}
+    .step-num{filter:drop-shadow(0 0 8px rgba(var(--c-rgb),.7))}
+
+    /* ===== Theme switcher ===== */
+    .theme-btn{background:var(--bg-card);border:1px solid var(--border-subtle);color:var(--text-main);width:40px;height:40px;border-radius:50%;font-size:1.1rem;cursor:pointer;box-shadow:0 0 14px rgba(var(--a-rgb),.5);transition:transform .2s,box-shadow .2s;flex:0 0 40px}
+    .theme-btn:hover{transform:rotate(20deg) scale(1.08);box-shadow:0 0 22px rgba(var(--a-rgb),.9)}
+    .theme-panel{position:fixed;top:68px;right:12px;z-index:150;width:min(300px,calc(100vw - 24px));background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:12px;box-shadow:0 18px 50px rgba(0,0,0,.6),0 0 30px rgba(var(--a-rgb),.25);display:none}
+    .theme-panel.on{display:block}
+    .theme-panel h4{font-size:.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.8px;margin:2px 4px 10px}
+    .theme-opt{display:flex;align-items:center;gap:12px;width:100%;background:transparent;border:1px solid transparent;color:var(--text-main);padding:9px 10px;border-radius:12px;font:inherit;font-size:.9rem;font-weight:600;cursor:pointer;text-align:left}
+    .theme-opt:hover{background:var(--bg-card-hover)}
+    .theme-opt.on{border-color:var(--neon-indigo);background:var(--bg-card-hover)}
+    .sw{width:30px;height:30px;border-radius:50%;flex:0 0 30px}
+    @media (max-width:520px){.nav-links{gap:12px}.nav-links li:last-child{display:none}.nav-links a{font-size:.8rem}}
+    @media (prefers-reduced-motion:reduce){.btn-primary::after,.search-btn::after,.hero-title{animation:none}}
+</style>
+</head>
+<body>
+
+  <!-- 1. Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="#" class="brand-logo">
+        <span class="logo-badge">LONY</span> Projects
+      </a>
+      <ul class="nav-links">
+        <li><a href="#projects">Projects</a></li>
+        <li class="rn" style="display:none"><a href="runner.html">Code Runner</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+      </ul>
+      <button class="theme-btn" id="tbtn" type="button" aria-label="Change theme" aria-expanded="false">🎨</button>
+    </div>
+  </nav>
+  <div class="theme-panel" id="tp" role="dialog" aria-label="Choose theme"></div>
+
+  <div class="container">
+
+    <!-- 2. Hero Section -->
+    <section class="hero">
+      <div class="hero-pill">⚡ Built for TN Polytechnic Students</div>
+      <h1 class="hero-title">Ready-to-Build Academic & Diploma Projects</h1>
+      <p class="hero-subtext">Discover complete source code, circuit diagrams, documentation, and step-by-step guides for Web, CSE, EEE, Mechanical, Robotics, and Logistics branches.</p>
+      
+      <div class="hero-buttons">
+        <a href="#projects" class="btn-primary">Explore Projects</a>
+      </div>
+    </section>
+
+    <!-- 3. Stats Row -->
+    <div class="stats-row">
+      <div>
+        <div class="stat-number" id="cnt">0</div>
+        <div class="stat-label">Projects</div>
+      </div>
+      <div>
+        <div class="stat-number">7</div>
+        <div class="stat-label">Departments</div>
+      </div>
+      <div>
+        <div class="stat-number">Free</div>
+        <div class="stat-label">Free Tools</div>
+      </div>
+    </div>
+
+    <!-- 4. Department Cards -->
+    <section class="section">
+      <h2 class="section-title">Departments</h2>
+      <p class="section-subtitle">Tap a department to filter projects. Tap again to clear.</p>
+
+      <div class="dept-grid">
+        <button class="dept-card" type="button" data-b="web">
+          <div class="dept-icon">💻</div>
+          <div class="dept-title">Web Designing</div>
+          <div class="dept-count" data-c="web">0 Projects</div>
+        </button>
+
+        <button class="dept-card" type="button" data-b="cse">
+          <div class="dept-icon">⚡</div>
+          <div class="dept-title">CSE</div>
+          <div class="dept-count" data-c="cse">0 Projects</div>
+        </button>
+
+        <button class="dept-card" type="button" data-b="eee">
+          <div class="dept-icon">🔌</div>
+          <div class="dept-title">EEE</div>
+          <div class="dept-count" data-c="eee">0 Projects</div>
+        </button>
+
+        <button class="dept-card" type="button" data-b="mech">
+          <div class="dept-icon">⚙️</div>
+          <div class="dept-title">Mechanical</div>
+          <div class="dept-count" data-c="mech">0 Projects</div>
+        </button>
+
+        <button class="dept-card" type="button" data-b="sand">
+          <div class="dept-icon">🏭</div>
+          <div class="dept-title">Mechanical Sandwich</div>
+          <div class="dept-count" data-c="sand">0 Projects</div>
+        </button>
+
+        <button class="dept-card" type="button" data-b="robo">
+          <div class="dept-icon">🤖</div>
+          <div class="dept-title">Robotics</div>
+          <div class="dept-count" data-c="robo">0 Projects</div>
+        </button>
+
+        <button class="dept-card" type="button" data-b="logi">
+          <div class="dept-icon">📦</div>
+          <div class="dept-title">Logistics</div>
+          <div class="dept-count" data-c="logi">0 Projects</div>
+        </button>
+      </div>
+    </section>
+
+    <!-- 5. Projects Section -->
+    <section class="section" id="projects">
+      <h2 class="section-title">Projects</h2>
+      <p class="section-subtitle">Download full source code, schematics, and presentation files.</p>
+
+      <div class="filter-chips" id="chips">
+        <button class="chip active" type="button" data-l="all">All</button>
+        <button class="chip" type="button" data-l="Beginner">Beginner</button>
+        <button class="chip" type="button" data-l="Intermediate">Intermediate</button>
+        <button class="chip" type="button" data-l="Final Year">Final Year</button>
+      </div>
+      <div class="active-filter" id="af"></div>
+
+      <div id="list"></div>
+      <div class="empty" id="empty">No projects found. Try a different filter.</div>
+    </section>
+
+    <!-- 6. Free Code Runner Promo Card -->
+    <section class="section" id="code-runner" style="display:none">
+      <div class="promo-card">
+        <h2 class="promo-title">Test Code Directly in Your Browser</h2>
+        <p class="promo-desc">Use our mobile-first Code Runner tool to run HTML, JavaScript, C++ and Python directly on your smartphone without installing heavy IDEs.</p>
+        <a href="runner.html" class="btn-primary" style="display: inline-block;">Launch Code Runner</a>
+      </div>
+    </section>
+
+    <!-- 7. How It Works -->
+    <section class="section" id="how-it-works">
+      <h2 class="section-title">How It Works</h2>
+      <p class="section-subtitle">Get your practical projects ready in three easy steps.</p>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h3>Choose a Project</h3>
+            <p>Browse through your department's repository and select a project matching your semester requirements.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h3>Review Materials</h3>
+            <p>Access full circuit schematics, source files, component lists, and step-by-step assembly guides.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h3>Build & Demonstrate</h3>
+            <p>Test your setup using our inline Code Runner or hardware wiring guides for your lab submission.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. Newsletter Email Form -->
+    <section class="section">
+      <div class="newsletter-card">
+        <h2 class="section-title">Stay Updated on New Projects</h2>
+        <p class="section-subtitle" style="margin-bottom: 0;">Get new project releases and board exam practical guides directly in your inbox.</p>
+        
+        <form class="newsletter-form" id="nf">
+          <input type="email" id="em" class="newsletter-input" placeholder="Enter your email address" required>
+          <button type="submit" class="btn-primary" style="border: none; cursor: pointer;">Subscribe</button>
+        </form>
+        <div class="ok" id="ok"></div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- 9. Footer -->
+  <footer class="footer">
+    <div class="container">
+      <ul class="footer-links">
+        <li><a href="#projects">Projects</a></li>
+        <li class="rn" style="display:none"><a href="runner.html">Code Runner</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+      </ul>
+      <p>© 2026 LONY Projects. Built for Tamil Nadu Polytechnic Diploma Students.</p>
+    </div>
+  </footer>
+
+
+  <div id="pm" role="dialog" aria-modal="true"><div class="pm-box">
+    <button type="button" class="pm-x" id="pm-x" aria-label="Close">✕</button>
+    <span class="prem-badge">👑 PREMIUM</span>
+    <h3>Premium Future High Value Projects</h3>
+    <p style="font-size:.85rem;color:var(--text-muted)" id="pm-d"></p>
+    <div class="pm-price">₹499</div>
+    <ol><li>Pay ₹499 using UPI</li><li>Enter the 12 digit UTR / Transaction ID</li><li>Confirm to unlock 15 projects</li></ol>
+    <a class="prem-btn" id="pm-upi" href="#">Pay ₹499 with UPI</a>
+    <input class="pm-in" id="pm-utr" inputmode="numeric" maxlength="12" placeholder="12 digit UTR number">
+    <button type="button" class="pm-ok" id="pm-ok">Confirm Payment &amp; Unlock</button>
+    <p class="pm-note" id="pm-id"></p>
+  </div></div>
+
+  <div id="toast" role="status"></div>
+  <script>
+  const P=[
+{b:"web",t:"Portfolio Website",l:"Beginner",d:"Show your skills and projects online.",tg:["HTML", "CSS"],p:0},
+{b:"web",t:"Landing Page for Product / Event",l:"Beginner",d:"One page site to promote an event.",tg:["HTML", "CSS"],p:0},
+{b:"web",t:"College Website",l:"Beginner",d:"Departments, news and contact pages.",tg:["HTML", "CSS"],p:150},
+{b:"web",t:"Restaurant Website with Menu",l:"Beginner",d:"Menu, offers and table booking form.",tg:["HTML", "CSS"],p:150},
+{b:"web",t:"Online Shopping Website",l:"Intermediate",d:"Cart, checkout and product search.",tg:["JS", "Cart"],p:150},
+{b:"web",t:"Blog / News Website",l:"Final Year",d:"Posts, categories and an admin editor.",tg:["Web", "Backend"],p:999},
+{b:"web",t:"AI Chatbot Website Widget",l:"Intermediate",d:"Add a smart chat box to any site.",tg:["AI", "JS"],p:150},
+{b:"web",t:"Online Course Platform",l:"Final Year",d:"Lessons, progress and quiz pages.",tg:["Web", "Backend"],p:999},
+{b:"web",t:"Real Estate Listing Website",l:"Intermediate",d:"Filter houses by price and area.",tg:["JS", "Filters"],p:150},
+{b:"web",t:"Salon / Clinic Booking Website",l:"Intermediate",d:"Slots, bookings and reminders.",tg:["Web", "Booking"],p:150},
+{b:"web",t:"Job Portal Frontend",l:"Intermediate",d:"Job list, search and apply pages.",tg:["Web", "Search"],p:150},
+{b:"web",t:"Installable Web App (PWA)",l:"Intermediate",d:"Make a website work like an app.",tg:["PWA", "JS"],p:150},
+{b:"cse",t:"Quiz App",l:"Beginner",d:"Timed quiz with score and result.",tg:["JS", "Quiz"],p:0},
+{b:"cse",t:"To-Do List App",l:"Beginner",d:"Add, edit and track daily tasks.",tg:["JS", "Storage"],p:0},
+{b:"cse",t:"Student Management System",l:"Intermediate",d:"Store marks, attendance and records.",tg:["Web", "Database"],p:150},
+{b:"cse",t:"Job Portal + Resume Matcher",l:"Final Year",d:"Match resumes to job skills using AI.",tg:["Web", "AI"],p:999},
+{b:"cse",t:"Hostel Finder with Map",l:"Final Year",d:"Find hostels on a map with filters.",tg:["Maps", "Web"],p:999},
+{b:"cse",t:"Real-time Chat App",l:"Final Year",d:"Group chat with live messages.",tg:["Web", "Realtime"],p:999},
+{b:"cse",t:"Face Recognition Attendance",l:"Final Year",d:"Mark attendance from a camera feed.",tg:["AI", "OpenCV"],p:999},
+{b:"cse",t:"AI Chatbot for College",l:"Final Year",d:"Answers student questions in many languages.",tg:["AI", "Chatbot"],p:999},
+{b:"cse",t:"Exam Result Predictor",l:"Final Year",d:"Predict results from past marks.",tg:["AI", "Python"],p:999},
+{b:"cse",t:"Expense Tracker with Charts",l:"Intermediate",d:"Track spending with simple graphs.",tg:["Web", "Charts"],p:150},
+{b:"cse",t:"Weather App with API",l:"Intermediate",d:"Live weather for any city.",tg:["API", "JS"],p:150},
+{b:"cse",t:"Online Voting System",l:"Intermediate",d:"Secure login and vote counting.",tg:["Web", "Security"],p:150},
+{b:"eee",t:"Automatic Night Lamp using LDR",l:"Beginner",d:"Lamp turns on in the dark by itself.",tg:["LDR", "Transistor"],p:0},
+{b:"eee",t:"Clap Switch Circuit",l:"Beginner",d:"Switch a light on and off with a clap.",tg:["Sensor", "Relay"],p:0},
+{b:"eee",t:"Solar Panel & Battery Sizing",l:"Intermediate",d:"Size panel and battery for any load.",tg:["Solar", "Calculator"],p:150},
+{b:"eee",t:"IoT Energy Monitoring Dashboard",l:"Final Year",d:"Live voltage, current and units on a dashboard.",tg:["ESP32", "IoT"],p:999},
+{b:"eee",t:"Smart Home Control Website",l:"Final Year",d:"Switch appliances from a phone web page.",tg:["ESP32", "Relay"],p:999},
+{b:"eee",t:"EV Charging Station Finder",l:"Final Year",d:"Find EV chargers on a map.",tg:["Maps", "EV"],p:999},
+{b:"eee",t:"Smart Prepaid Energy Meter",l:"Final Year",d:"Recharge based power supply with cut off.",tg:["IoT", "Meter"],p:999},
+{b:"eee",t:"Solar Power Tracker",l:"Final Year",d:"Panel follows the sun for more power.",tg:["Solar", "Sensor"],p:999},
+{b:"eee",t:"Automatic Power Factor Corrector",l:"Intermediate",d:"Switch capacitors to improve power factor.",tg:["Power", "Relay"],p:150},
+{b:"eee",t:"Transformer Health Monitor",l:"Final Year",d:"Track temperature and load remotely.",tg:["IoT", "Sensor"],p:999},
+{b:"eee",t:"Electricity Theft Detector",l:"Final Year",d:"Detect meter bypass and alert by SMS.",tg:["IoT", "GSM"],p:999},
+{b:"eee",t:"EV Battery Monitoring System",l:"Final Year",d:"Show battery voltage, current and temperature.",tg:["EV", "Battery"],p:999},
+{b:"mech",t:"Hydraulic Lift Model using Syringes",l:"Beginner",d:"Lift a load using water and syringes.",tg:["Hydraulics", "Model"],p:0},
+{b:"mech",t:"Balloon Powered Car",l:"Beginner",d:"A car that runs on air from a balloon.",tg:["Model", "Physics"],p:0},
+{b:"mech",t:"Machining Time & Cost Calculator",l:"Intermediate",d:"Estimate turning and milling cost.",tg:["Calculator"],p:150},
+{b:"mech",t:"Machine Maintenance Tracker",l:"Final Year",d:"Schedules and service history for machines.",tg:["Web", "Tracker"],p:999},
+{b:"mech",t:"IoT Vibration & Temperature Monitor",l:"Final Year",d:"Watch machine health live.",tg:["IoT", "Sensor"],p:999},
+{b:"mech",t:"Predictive Maintenance Dashboard",l:"Final Year",d:"Warn before a machine fails.",tg:["IoT", "Charts"],p:999},
+{b:"mech",t:"CNC Job Cost Estimator",l:"Intermediate",d:"Quote CNC jobs with time and material.",tg:["Calculator", "CNC"],p:150},
+{b:"mech",t:"Heat Exchanger Sizing Calculator",l:"Intermediate",d:"Size a simple heat exchanger.",tg:["Calculator", "Thermal"],p:150},
+{b:"mech",t:"Pneumatic Car Jack Model",l:"Final Year",d:"Lift a load with compressed air.",tg:["Pneumatic", "Model"],p:999},
+{b:"mech",t:"Solar Powered Grass Cutter",l:"Final Year",d:"Cuts grass using solar energy.",tg:["Solar", "Motor"],p:999},
+{b:"mech",t:"Wind Turbine Model",l:"Final Year",d:"Small turbine that charges a battery.",tg:["Wind", "Model"],p:999},
+{b:"mech",t:"Electric Bicycle Conversion Kit",l:"Final Year",d:"Convert a cycle into an e-bike.",tg:["EV", "Motor"],p:999},
+{b:"sand",t:"Industrial Training Daily Diary",l:"Beginner",d:"Write your daily training log.",tg:["Web", "Diary"],p:0},
+{b:"sand",t:"Training Report Maker",l:"Intermediate",d:"Turn diary entries into a report.",tg:["Web", "Report"],p:0},
+{b:"sand",t:"Machine Downtime Tracker",l:"Final Year",d:"Record and analyse machine stoppages.",tg:["Web", "Tracker"],p:999},
+{b:"sand",t:"Spare Parts Inventory Tracker",l:"Final Year",d:"Stock, reorder level and usage.",tg:["Web", "Inventory"],p:999},
+{b:"sand",t:"OEE Calculator Dashboard",l:"Intermediate",d:"Availability, performance and quality score.",tg:["Calculator", "Charts"],p:150},
+{b:"sand",t:"Preventive Maintenance Scheduler",l:"Intermediate",d:"Plan and remind service dates.",tg:["Web", "Scheduler"],p:150},
+{b:"sand",t:"Production Planning Sheet",l:"Intermediate",d:"Plan daily output and targets.",tg:["Web", "Planning"],p:150},
+{b:"sand",t:"Quality Defect Tracker",l:"Intermediate",d:"Log defects and find common causes.",tg:["Web", "Quality"],p:150},
+{b:"sand",t:"Tool Life Tracker",l:"Intermediate",d:"Track tool usage and replacement.",tg:["Web", "Tracker"],p:150},
+{b:"sand",t:"Work Order Management",l:"Final Year",d:"Create, assign and close work orders.",tg:["Web", "Backend"],p:999},
+{b:"sand",t:"Shift Report Generator",l:"Intermediate",d:"Auto make shift handover reports.",tg:["Web", "Report"],p:150},
+{b:"sand",t:"Workshop Energy Usage Tracker",l:"Final Year",d:"Find which machines use most power.",tg:["IoT", "Energy"],p:999},
+{b:"robo",t:"Vibrobot (Toothbrush Robot)",l:"Beginner",d:"A tiny robot that moves by vibration.",tg:["Motor", "Simple"],p:0},
+{b:"robo",t:"Simple Wired Remote Car",l:"Beginner",d:"Drive a small car with a switch remote.",tg:["Motor", "Switch"],p:0},
+{b:"robo",t:"Bluetooth Controlled Car",l:"Intermediate",d:"Drive the car from a phone app.",tg:["Arduino", "Bluetooth"],p:150},
+{b:"robo",t:"Robotic Arm with Web Control",l:"Final Year",d:"Move the arm using sliders on a web page.",tg:["ESP32", "Servo"],p:999},
+{b:"robo",t:"Smart Dustbin / Plant Watering Bot",l:"Final Year",d:"Sensor based auto open and auto watering.",tg:["IoT", "Automation"],p:999},
+{b:"robo",t:"Fire Fighting Robot",l:"Final Year",d:"Finds fire and sprays water.",tg:["Arduino", "Sensor"],p:999},
+{b:"robo",t:"Maze Solving Robot",l:"Intermediate",d:"Finds its way out of a maze.",tg:["Arduino", "Algorithm"],p:150},
+{b:"robo",t:"Wi-Fi Controlled Robot",l:"Intermediate",d:"Control the robot over Wi-Fi.",tg:["ESP32", "Web"],p:150},
+{b:"robo",t:"Gesture Controlled Robot",l:"Intermediate",d:"Robot moves with your hand tilt.",tg:["Arduino", "Accelerometer"],p:150},
+{b:"robo",t:"Self Balancing Robot",l:"Final Year",d:"Two wheel robot that stays upright.",tg:["Arduino", "PID"],p:999},
+{b:"robo",t:"AI Object Following Robot",l:"Final Year",d:"Follows a person or object using a camera.",tg:["AI", "Camera"],p:999},
+{b:"robo",t:"Solar Panel Cleaning Robot",l:"Final Year",d:"Cleans panels to keep output high.",tg:["Solar", "Robot"],p:999},
+{b:"logi",t:"Inventory & Stock Manager",l:"Beginner",d:"Track stock in, out and low stock alerts.",tg:["Web", "Inventory"],p:0},
+{b:"logi",t:"Freight / Transport Cost Calculator",l:"Intermediate",d:"Cost from distance and weight.",tg:["Calculator"],p:0},
+{b:"logi",t:"Warehouse Layout & Bin Locator",l:"Intermediate",d:"Find items by rack and bin number.",tg:["Web", "Warehouse"],p:150},
+{b:"logi",t:"Vehicle Tracking Dashboard",l:"Final Year",d:"GPS location, route history and status.",tg:["GPS", "Maps"],p:999},
+{b:"logi",t:"Order & Delivery Management",l:"Final Year",d:"Create orders and assign drivers.",tg:["Web", "Backend"],p:999},
+{b:"logi",t:"Delivery Route Optimizer",l:"Final Year",d:"Find the shortest delivery route.",tg:["Maps", "Algorithm"],p:999},
+{b:"logi",t:"Barcode Stock Scanner App",l:"Intermediate",d:"Scan barcodes to update stock.",tg:["Web", "Barcode"],p:150},
+{b:"logi",t:"Fleet Fuel Tracker",l:"Intermediate",d:"Track mileage and fuel cost per vehicle.",tg:["Web", "Tracker"],p:150},
+{b:"logi",t:"Supplier Management System",l:"Intermediate",d:"Suppliers, orders and payments.",tg:["Web", "Database"],p:150},
+{b:"logi",t:"Cold Chain Temperature Monitor",l:"Final Year",d:"Monitor goods temperature in transit.",tg:["IoT", "Sensor"],p:999},
+{b:"logi",t:"Invoice & E-way Bill Maker",l:"Intermediate",d:"Make invoices ready to print.",tg:["Web", "Invoice"],p:150},
+{b:"logi",t:"Delivery Proof App with Photo",l:"Intermediate",d:"Capture photo proof on delivery.",tg:["Web", "Camera"],p:150}
+];
+  const NAMES={web:"Web Designing",cse:"CSE",eee:"EEE",mech:"Mechanical",sand:"Mechanical Sandwich",robo:"Robotics",logi:"Logistics"};
+  const $=id=>document.getElementById(id);
+  let br="all",lv="all",q="";
+  const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const tagCls=l=>l==="Beginner"?"tag-beginner":l==="Intermediate"?"tag-intermediate":"tag-final";
+  let tt;function toast(m){const t=$("toast");t.textContent=m;t.classList.add("on");clearTimeout(tt);tt=setTimeout(()=>t.classList.remove("on"),2200)}
+
+  const UPI_ID="yourname@upi",PREM_PRICE=499;
+  const PREM={"web":[["AI Website Builder Platform","Generate full websites from a text prompt.","AI,Web"],["Multi-Vendor E-commerce Marketplace","Sellers, orders, payments and admin panel.","Web,Backend"],["SaaS Subscription Dashboard","Plans, billing and usage analytics.","SaaS,Charts"],["Live Class & Learning Platform","Video classes, quizzes and certificates.","Web,Video"],["Food Delivery Web App","Customer, restaurant and rider panels.","Web,Maps"],["Telemedicine Appointment Portal","Doctor booking with video consult.","Web,Health"],["Offline-First PWA Store","Installable shopping app that works offline.","PWA,Offline"],["Real-Time Chat & Community App","Group chat, DMs and notifications.","WebSocket,Web"],["AI Resume & Portfolio Generator","Auto build resumes with AI tips.","AI,Web"],["Online Exam & Proctoring System","Timed tests with tab-switch detection.","Web,Security"],["Freelancer Job Marketplace","Gigs, bids, chat and escrow flow.","Web,Backend"],["Event Ticket Booking with QR","Seat booking and QR entry pass.","Web,QR"],["3D Product Viewer Website","Rotate and zoom products in 3D.","WebGL,3D"],["Voice-Controlled Website","Browse a site using voice commands.","Voice,JS"],["Business Analytics Dashboard Builder","Drag-drop widgets and live charts.","Charts,Dashboard"]],"cse":[["AI Resume Screening & Job Matcher","Rank resumes against job skills.","AI,NLP"],["Face Recognition Attendance System","Mark attendance from a camera feed.","AI,OpenCV"],["Fake News & Spam Detector","Classify text using machine learning.","ML,NLP"],["AI College Helpdesk Chatbot","Answers student queries 24/7.","AI,Chatbot"],["Blockchain Certificate Verification","Tamper-proof certificate checking.","Blockchain,Web"],["Phishing URL Detector","Flag dangerous links using ML.","Security,ML"],["Smart Traffic Prediction System","Predict congestion from past data.","ML,Data"],["Crop Disease Detection with AI","Find plant disease from a leaf photo.","AI,Vision"],["Cloud Expense Tracker App","Sync spending across devices.","Mobile,Cloud"],["Plagiarism Checker Tool","Compare documents for similarity.","NLP,Python"],["Sign Language to Text Translator","Convert hand signs into text.","AI,Vision"],["Emotion Based Music Recommender","Suggest songs from your face mood.","AI,Camera"],["Secure Password & File Vault","AES encrypted storage app.","Security,Crypto"],["AI Study Planner & Doubt Solver","Plan study time and answer doubts.","AI,Web"],["Secure Online Voting System","OTP login and tamper-proof votes.","Web,Security"]],"eee":[["Smart Energy Meter with IoT Billing","Live units and bill on your phone.","IoT,Energy"],["Solar MPPT Charge Controller","Get maximum power from solar panels.","Solar,Power"],["EV Charging Station Monitor","Track sessions, power and payments.","EV,IoT"],["Smart Grid Load Management","Balance and shed load automatically.","Grid,Automation"],["Wireless EV Charging Model","Charge a battery without wires.","EV,Wireless"],["Power Theft Detection with SMS","Alert when meter bypass is found.","IoT,Security"],["Home Automation with Energy Saving","Auto switch loads to cut bills.","IoT,ESP32"],["Hybrid Solar-Wind Power System","Combine two sources for steady power.","Solar,Wind"],["Li-ion Battery Management System","Protect cells and show charge level.","BMS,Battery"],["Smart Street Light with Fault Alert","Auto dim and report broken lights.","IoT,Sensor"],["Transformer Load & Oil Monitor","Watch temperature and load online.","IoT,Dashboard"],["Regenerative Braking Model for EV","Recover energy while braking.","EV,Motor"],["Underground Cable Fault Locator","Find the fault distance quickly.","Power,Arduino"],["Smart Microgrid Simulator","Simulate solar, battery and load.","Simulation,Grid"],["AI Motor Health Monitoring","Predict motor failure from vibration.","AI,IoT"]],"mech":[["EV Chassis & Drivetrain Model","Design and build a working EV base.","EV,CAD"],["3D Printed Prosthetic Hand","Low cost hand with moving fingers.","3D Print,Bio"],["Solar Water Pumping System","Pump water with no electricity bill.","Solar,Pump"],["Waste Heat Recovery System","Turn exhaust heat into useful power.","Energy,Thermal"],["DIY 3-Axis CNC Router","Cut wood and plastic by G-code.","CNC,Automation"],["Hydrogen Fuel Cell Demo Model","Show clean energy in action.","Hydrogen,Energy"],["Smart Agri Sprayer Vehicle","Remote controlled pesticide sprayer.","Agri,Robotics"],["Load Lifting Exoskeleton","Wearable frame to reduce effort.","Wearable,Design"],["Vertical Axis Wind Turbine","Small turbine for rooftops.","Wind,Design"],["Regenerative Shock Absorber","Generate power from road bumps.","Energy,Auto"],["Pneumatic Pick & Place Arm","Automatic part handling arm.","Pneumatic,Automation"],["Go-Kart Design with FEA","CAD design and stress simulation.","CAD,FEA"],["Solar Powered Cooling System","Refrigeration using solar heat.","Solar,Thermal"],["Plastic Waste to Fuel Unit","Pyrolysis setup for waste plastic.","Waste,Energy"],["Digital Twin of a CNC Machine","Mirror machine data on a screen.","IoT,Industry 4.0"]],"sand":[["Smart Factory Live Dashboard","See all machines in one screen.","IoT,Dashboard"],["AI Predictive Maintenance System","Predict breakdowns before they happen.","AI,Maintenance"],["Production Line Digital Twin","Virtual copy of the shop floor.","Simulation,Industry 4.0"],["Real-Time OEE Monitoring","Auto calculate OEE from machine signals.","IoT,OEE"],["Camera Based Quality Inspection","Detect defective parts automatically.","AI,Vision"],["QR Smart Tool Crib","Issue and return tools by QR scan.","QR,Inventory"],["Energy Audit & Saving System","Find power waste in the workshop.","Energy,IoT"],["Paperless Shop Floor Instructions","Digital work steps for operators.","Web,Lean"],["Digital Kanban Board","Pull-based production tracking.","Lean,Web"],["Robotic Welding Cell Simulation","Plan weld paths in simulation.","Robotics,Simulation"],["PPE Safety Compliance Monitor","Detect missing helmets using camera.","AI,Safety"],["RFID Smart Inventory","Auto count parts with RFID tags.","RFID,Inventory"],["AI Production Scheduler","Best job order to meet deadlines.","AI,Planning"],["Machine Breakdown SMS/WhatsApp Alert","Instant alerts to the supervisor.","IoT,Alerts"],["Root Cause Analysis Tool","Fishbone and 5-Why digital tool.","Quality,Web"]],"robo":[["Autonomous Delivery Robot","Carries items to a set location.","Navigation,AI"],["AI Surveillance Patrol Robot","Patrols and streams live video.","AI,Camera"],["Gesture Mimic Humanoid Arm","Copies your hand and arm moves.","Vision,Servo"],["Warehouse AGV Line Follower","Moves goods along marked paths.","AGV,Sensor"],["Obstacle Avoiding Drone","Flies safely around objects.","Drone,Sensor"],["Voice Controlled Assistant Robot","Moves and answers voice commands.","Voice,AI"],["Seeding & Weeding Farm Robot","Automates small farm tasks.","Agri,Robot"],["Hospital Medicine Delivery Robot","Delivers medicines to wards.","Healthcare,AGV"],["Swarm Robots Demo","Many robots working as a team.","Swarm,ESP32"],["Quadruped Spider Robot","Four-leg walking robot.","Servo,Design"],["Underwater ROV Model","Remote vehicle for underwater views.","ROV,Marine"],["Pipe Inspection Robot","Crawls inside pipes with a camera.","Inspection,Camera"],["Rescue Robot with Life Detection","Finds people in rubble.","Rescue,Sensor"],["Robotic Waiter with Table Navigation","Serves food to table numbers.","AGV,Web"],["SLAM Mapping Robot with LiDAR","Builds a map of a room.","SLAM,LiDAR"]],"logi":[["AI Demand Forecasting System","Predict next month's orders.","AI,Data"],["RFID Smart Warehouse","Track every item without scanning.","RFID,Warehouse"],["Real-Time Fleet Telematics","Speed, location and engine status.","GPS,IoT"],["Blockchain Supply Chain Tracker","Trace goods from factory to shop.","Blockchain,Web"],["Last-Mile Delivery Route AI","Smarter routes for many drops.","AI,Maps"],["Drone Delivery Planner","Plan and simulate drone drops.","Drone,Maps"],["Automatic Parcel Sorting System","Sort parcels by barcode or colour.","Automation,Sensor"],["GST Invoice & E-way Bill Automation","Generate bills with tax rules.","Web,Invoice"],["Cold Chain Compliance Monitor","Prove goods stayed at safe temperature.","IoT,Reports"],["Container Tracking Dashboard","Follow shipments across ports.","Web,Maps"],["Driver Behaviour Monitoring","Detect harsh braking and speeding.","IoT,Safety"],["Returns & Reverse Logistics Manager","Handle returned goods smoothly.","Web,Backend"],["3D Warehouse Digital Twin","View stock racks in 3D.","3D,Warehouse"],["Parcel Dimension & Weight Scanner","Auto measure parcels for pricing.","Sensor,Vision"],["Shipment Carbon Footprint Calculator","Estimate CO2 for every delivery.","Calculator,Green"]]};
+  const isUnlocked=d=>{try{return localStorage.getItem("lony_prem_"+d)==="1"}catch(e){return false}};
+  function prem(d,k){
+    if(k||!(br==="all"||br===d))return"";
+    const L=PREM[d],u=isUnlocked(d);
+    const head=`<div class="prem-top"><div><span class="prem-badge">👑 PREMIUM</span><h3>Premium Future High Value Projects</h3><p>${L.length} industry-level future projects for ${esc(NAMES[d])}</p></div>${u?'<span class="prem-ok">✅ Unlocked</span>':`<span class="prem-btn">🔒 Unlock ₹${PREM_PRICE}</span>`}</div>`;
+    if(!u)return `<div class="prem locked" data-pd="${d}" role="button" tabindex="0">${head}<div class="prem-peek">${L.slice(0,3).map(x=>`<div>${esc(x[0])}</div>`).join("")}</div></div>`;
+    return `<div class="prem">${head}<div class="projects-grid">${L.map(x=>`<div class="project-card"><div><div class="project-header"><h3 class="project-title">${esc(x[0])}</h3><span class="tag-final">Premium</span></div><p class="project-desc">${esc(x[1])}</p><div class="ptags">${x[2].split(",").map(t=>`<span class="ptag">${esc(t)}</span>`).join("")}</div></div></div>`).join("")}</div></div>`;
+  }
+  let pd=null;
+  function openPay(d){pd=d;$("pm-d").textContent=NAMES[d]+" · 15 projects";$("pm-upi").href="upi://pay?pa="+encodeURIComponent(UPI_ID)+"&pn=LONY%20Projects&am="+PREM_PRICE+"&cu=INR&tn="+encodeURIComponent("Premium "+NAMES[d]);$("pm-id").textContent="UPI ID: "+UPI_ID;$("pm-utr").value="";$("pm").classList.add("on")}
+  $("pm-x").onclick=()=>$("pm").classList.remove("on");
+  $("pm").addEventListener("click",e=>{if(e.target===$("pm"))$("pm").classList.remove("on")});
+  $("pm-ok").onclick=()=>{const v=$("pm-utr").value.trim();if(!/^\d{12}$/.test(v)){toast("Enter a valid 12 digit UTR number");return}try{localStorage.setItem("lony_prem_"+pd,"1");localStorage.setItem("lony_utr_"+pd,v)}catch(e){}$("pm").classList.remove("on");render();toast("Premium unlocked 🎉")};
+  $("list").addEventListener("click",e=>{const b=e.target.closest(".prem.locked");if(b)openPay(b.dataset.pd)});
+
+  function render(){
+    const k=q.trim().toLowerCase();
+    const r=P.filter(x=>(br==="all"||x.b===br)&&(lv==="all"||x.l===lv)&&(!k||(x.t+" "+x.d+" "+x.tg.join(" ")).toLowerCase().includes(k)));
+    const card=x=>`<div class="project-card"><div><div class="project-header"><h3 class="project-title">${esc(x.t)}</h3><span class="${tagCls(x.l)}">${esc(x.l)}</span></div><p class="project-desc">${esc(x.d)}</p><div class="ptags">${x.tg.map(t=>`<span class="ptag">${esc(t)}</span>`).join("")}</div></div><div class="project-footer"><span class="project-price">${x.p?"₹"+x.p:"Free"}</span><button type="button" class="btn-card" data-t="${esc(x.t)}">View Project</button></div></div>`;
+    $("list").innerHTML=Object.keys(NAMES).map(d=>{const g=r.filter(x=>x.b===d),pm=prem(d,k);if(!g.length&&!pm)return"";return `<div class="dept-group">${g.length?`<div class="dept-head"><h3>${esc(NAMES[d])}</h3><span>${g.length} ${g.length===1?"Project":"Projects"}</span></div><div class="projects-grid">${g.map(card).join("")}</div>`:""}${pm}</div>`}).join("");
+    $("empty").style.display=r.length?"none":"block";
+    $("af").innerHTML=br==="all"?"":`<span class="af-pill">${esc(NAMES[br])}<button type="button" id="clr" aria-label="Clear department filter">✕</button></span>`;
+    const c=$("clr");if(c)c.onclick=()=>setDept("all",false);
+    const rn=br==="web"||br==="cse";
+    $("code-runner").style.display=rn?"":"none";
+    document.querySelectorAll(".rn").forEach(el=>el.style.display=rn?"":"none");
+  }
+  function setDept(b,scroll){
+    br=b;
+    document.querySelectorAll(".dept-card").forEach(x=>x.classList.toggle("active",x.dataset.b===br));
+    render();
+    if(scroll)$("projects").scrollIntoView({behavior:"smooth"});
+  }
+  document.querySelectorAll(".dept-card").forEach(d=>d.onclick=()=>setDept(br===d.dataset.b?"all":d.dataset.b,br!==d.dataset.b));
+  document.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{lv=c.dataset.l;document.querySelectorAll(".chip").forEach(x=>x.classList.toggle("active",x===c));render()});
+  $("list").addEventListener("click",e=>{const b=e.target.closest("button[data-t]");if(b)location.href="project.html?t="+encodeURIComponent(b.dataset.t)});
+  $("nf").addEventListener("submit",e=>{
+    e.preventDefault();
+    try{localStorage.setItem("lony_email",$("em").value)}catch(x){}
+    $("ok").textContent="Thanks! We'll notify you about new projects.";$("em").value="";
+  });
+  $("cnt").textContent=P.length+"";
+  document.querySelectorAll("[data-c]").forEach(el=>{const n=P.filter(x=>x.b===el.dataset.c).length;el.textContent=n+(n===1?" Project":" Projects")});
+  render();
+  </script>
+
+  <script>
+  (function(){
+    const THEMES=[
+      {id:"indigo",n:"Cosmic Indigo",a:"#6366f1",b:"#a855f7",c:"#06b6d4"},
+      {id:"cyber",n:"Neon Cyber",a:"#00e5ff",b:"#ff2bd6",c:"#00ffa3"},
+      {id:"emerald",n:"Emerald Matrix",a:"#10b981",b:"#84cc16",c:"#22d3ee"},
+      {id:"sunset",n:"Sunset Fire",a:"#f97316",b:"#ef4444",c:"#facc15"},
+      {id:"gold",n:"Royal Gold",a:"#f59e0b",b:"#fde047",c:"#fb923c"},
+      {id:"ocean",n:"Ocean Aqua",a:"#0ea5e9",b:"#06b6d4",c:"#2dd4bf"},
+      {id:"rose",n:"Rose Neon",a:"#ec4899",b:"#a855f7",c:"#fb7185"}
+    ];
+    const root=document.documentElement,tp=document.getElementById("tp"),tb=document.getElementById("tbtn");
+    let cur="indigo";try{cur=localStorage.getItem("lony_theme")||"indigo"}catch(e){}
+    if(!THEMES.some(t=>t.id===cur))cur="indigo";
+    function paint(){
+      tp.innerHTML='<h4>Choose theme</h4>'+THEMES.map(t=>`<button type="button" class="theme-opt${t.id===cur?" on":""}" data-id="${t.id}"><span class="sw" style="background:linear-gradient(135deg,${t.a},${t.b},${t.c});box-shadow:0 0 14px ${t.a}"></span>${t.n}</button>`).join("");
+    }
+    function apply(id,note){
+      cur=id;root.setAttribute("data-theme",id);
+      try{localStorage.setItem("lony_theme",id)}catch(e){}
+      const bg=getComputedStyle(root).getPropertyValue("--bg-base").trim();
+      if(bg)document.getElementById("tc").setAttribute("content",bg);
+      paint();
+      if(note&&window.toast)toast("Theme: "+THEMES.find(t=>t.id===id).n);
+    }
+    tb.onclick=e=>{e.stopPropagation();const on=tp.classList.toggle("on");tb.setAttribute("aria-expanded",on)};
+    tp.addEventListener("click",e=>{const b=e.target.closest(".theme-opt");if(b){apply(b.dataset.id,true);tp.classList.remove("on");tb.setAttribute("aria-expanded","false")}});
+    document.addEventListener("click",e=>{if(!tp.contains(e.target)&&e.target!==tb){tp.classList.remove("on")}});
+    apply(cur,false);
+  })();
+  </script>
+</body>
+</html>
