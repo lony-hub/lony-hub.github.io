@@ -194,7 +194,7 @@ export function mountNav() {
   if (!anchor) return;
   const st = document.createElement("style");
   st.textContent =
-    "#tbtn{margin-left:auto}.lauth{display:flex;align-items:center;gap:8px;margin-left:10px}" +
+    "#tbtn{margin-left:auto;width:34px;height:34px;flex:0 0 34px;font-size:.95rem}.lauth{display:flex;align-items:center;gap:8px;margin-left:10px}" +
     ".lauth a,.lauth button{font:inherit;font-size:.82rem;font-weight:700;cursor:pointer;border-radius:50px;padding:7px 14px;border:1px solid rgba(var(--a-rgb),.45);background:rgba(var(--a-rgb),.12);color:var(--a-soft,#818cf8);text-decoration:none;white-space:nowrap}" +
     ".lauth a:hover,.lauth button:hover{background:rgba(var(--a-rgb),.22)}" +
     ".lauth a:focus-visible,.lauth button:focus-visible{outline:2px solid var(--a-soft,#818cf8);outline-offset:2px}" +
@@ -242,4 +242,4 @@ export function mountNav() {
   };
   render(null);
   onUser(render);
-                   }
+       }
