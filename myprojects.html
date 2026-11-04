@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Projects - LONY Projects</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#07090e">
+<script>try{var _t=localStorage.getItem("lony_theme");if(_t)document.documentElement.setAttribute("data-theme",_t)}catch(e){}</script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+:root{--bg-base:#07090e;--bg-surface:#0f141d;--bg-card:#141b26;--bg-card-hover:#1c2533;--border-subtle:#212c3d;--text-main:#f8fafc;--text-muted:#94a3b8;--neon-indigo:#6366f1;--neon-purple:#a855f7;--neon-cyan:#06b6d4}
+:root{--a-rgb:99,102,241;--b-rgb:168,85,247;--c-rgb:6,182,212;--a-soft:#818cf8;--a-deep:#4f46e5}
+html[data-theme="indigo"]{--bg-base:#07090e;--bg-surface:#0f141d;--bg-card:#141b26;--bg-card-hover:#1c2533;--border-subtle:#212c3d;--neon-indigo:#6366f1;--neon-purple:#a855f7;--neon-cyan:#06b6d4;--a-rgb:99,102,241;--b-rgb:168,85,247;--c-rgb:6,182,212;--a-soft:#818cf8;--a-deep:#4f46e5}
+html[data-theme="cyber"]{--bg-base:#050810;--bg-surface:#0b111c;--bg-card:#0f1726;--bg-card-hover:#162238;--border-subtle:#1c2b45;--neon-indigo:#00e5ff;--neon-purple:#ff2bd6;--neon-cyan:#00ffa3;--a-rgb:0,229,255;--b-rgb:255,43,214;--c-rgb:0,255,163;--a-soft:#5eead4;--a-deep:#0891b2}
+html[data-theme="emerald"]{--bg-base:#040d0a;--bg-surface:#0a1612;--bg-card:#0e1d18;--bg-card-hover:#15291f;--border-subtle:#1a3328;--neon-indigo:#10b981;--neon-purple:#84cc16;--neon-cyan:#22d3ee;--a-rgb:16,185,129;--b-rgb:132,204,22;--c-rgb:34,211,238;--a-soft:#34d399;--a-deep:#059669}
+html[data-theme="sunset"]{--bg-base:#0f0705;--bg-surface:#1a0f0b;--bg-card:#211410;--bg-card-hover:#2d1c15;--border-subtle:#3a2419;--neon-indigo:#f97316;--neon-purple:#ef4444;--neon-cyan:#facc15;--a-rgb:249,115,22;--b-rgb:239,68,68;--c-rgb:250,204,21;--a-soft:#fb923c;--a-deep:#ea580c}
+html[data-theme="gold"]{--bg-base:#0b0905;--bg-surface:#16120a;--bg-card:#1d170d;--bg-card-hover:#292012;--border-subtle:#3a2e17;--neon-indigo:#f59e0b;--neon-purple:#fde047;--neon-cyan:#fb923c;--a-rgb:245,158,11;--b-rgb:253,224,71;--c-rgb:251,146,60;--a-soft:#fbbf24;--a-deep:#d97706}
+html[data-theme="ocean"]{--bg-base:#040e14;--bg-surface:#09161e;--bg-card:#0d1e29;--bg-card-hover:#142c3a;--border-subtle:#1a3a4c;--neon-indigo:#0ea5e9;--neon-purple:#06b6d4;--neon-cyan:#2dd4bf;--a-rgb:14,165,233;--b-rgb:6,182,212;--c-rgb:45,212,191;--a-soft:#38bdf8;--a-deep:#0284c7}
+html[data-theme="rose"]{--bg-base:#0e050b;--bg-surface:#190b14;--bg-card:#20101a;--bg-card-hover:#2d1625;--border-subtle:#3b1e30;--neon-indigo:#ec4899;--neon-purple:#a855f7;--neon-cyan:#fb7185;--a-rgb:236,72,153;--b-rgb:168,85,247;--c-rgb:251,113,133;--a-soft:#f472b6;--a-deep:#db2777}
+body{min-height:100vh;background:var(--bg-base);color:var(--text-main);line-height:1.6;-webkit-font-smoothing:antialiased;background-image:radial-gradient(520px 320px at 85% 0,rgba(var(--a-rgb),.16),transparent 70%);background-repeat:no-repeat}
+a{color:inherit;text-decoration:none}
+.bar{position:sticky;top:0;z-index:10;background:rgba(15,20,29,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border-subtle);padding:12px 16px}
+.bar-in{max-width:1000px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:8px;font-weight:800;letter-spacing:-.4px}
+.badge{background:linear-gradient(135deg,var(--neon-indigo),var(--neon-purple));color:#fff;padding:4px 10px;border-radius:10px;font-size:.75rem;font-weight:900}
+.me{display:flex;align-items:center;gap:10px}
+.me img{width:30px;height:30px;border-radius:50%;border:1px solid var(--border-subtle)}
+.btn{font:inherit;font-size:.82rem;font-weight:700;cursor:pointer;border-radius:50px;padding:7px 14px;border:1px solid rgba(var(--a-rgb),.45);background:rgba(var(--a-rgb),.12);color:var(--a-soft)}
+.btn:hover{background:rgba(var(--a-rgb),.22)}
+.btn:focus-visible{outline:2px solid var(--a-soft);outline-offset:2px}
+.wrap{max-width:1000px;margin:0 auto;padding:28px 16px 60px}
+h1{font-size:1.6rem;font-weight:800;letter-spacing:-.5px}
+.lead{color:var(--text-muted);font-size:.9rem;margin:2px 0 22px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:26px}
+.stat{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:18px;padding:16px}
+.stat b{display:block;font-size:1.7rem;font-weight:800;line-height:1.2}
+.stat span{font-size:.8rem;color:var(--text-muted)}
+.panel{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:20px;overflow:hidden;margin-bottom:22px}
+.panel-h{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--border-subtle)}
+.panel-h h2{font-size:1.02rem;font-weight:800}
+.search{background:var(--bg-base);border:1px solid var(--border-subtle);color:var(--text-main);border-radius:50px;padding:7px 14px;font-size:.85rem;width:min(220px,50%)}
+.search:focus{outline:2px solid var(--a-soft);outline-offset:1px}
+.scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:520px}
+th,td{text-align:left;padding:11px 16px;font-size:.86rem;border-bottom:1px solid var(--border-subtle);white-space:nowrap}
+th{color:var(--text-muted);font-weight:700;font-size:.78rem}
+tr:last-child td{border-bottom:none}
+.u{display:flex;align-items:center;gap:10px}
+.u img{width:28px;height:28px;border-radius:50%}
+.tag{font-size:.7rem;font-weight:800;padding:2px 9px;border-radius:50px;background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.4)}
+.empty{padding:28px 16px;text-align:center;color:var(--text-muted);font-size:.88rem}
+.links{display:flex;flex-wrap:wrap;gap:10px;padding:16px}
+.gate{min-height:70vh;display:flex;align-items:center;justify-content:center;padding:20px;text-align:center}
+.gate div{max-width:380px}
+.gate h1{font-size:1.3rem;margin-bottom:8px}
+.gate p{color:var(--text-muted);font-size:.9rem;margin-bottom:16px}
+.err{color:#f87171}
+.pst{font-size:.7rem;font-weight:800;padding:2px 9px;border-radius:50px;border:1px solid}
+.pst.pending{background:rgba(245,158,11,.15);color:#fbbf24;border-color:rgba(245,158,11,.4)}
+.pst.approved{background:rgba(16,185,129,.15);color:#34d399;border-color:rgba(16,185,129,.4)}
+.pst.rejected{background:rgba(248,113,113,.15);color:#f87171;border-color:rgba(248,113,113,.4)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid var(--border-subtle)}
+.tabs .btn.on{background:rgba(var(--a-rgb),.35)}
+.btn.ok{border-color:rgba(16,185,129,.5);color:#34d399;background:rgba(16,185,129,.12)}
+.btn.no{border-color:rgba(248,113,113,.5);color:#f87171;background:rgba(248,113,113,.1)}
+.btn:disabled{opacity:.5;cursor:default}
+.mono{font-family:ui-monospace,Menlo,Consolas,monospace}
+[hidden]{display:none!important}
+
+.tnav{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.tnav a{font-size:.8rem;font-weight:700;padding:6px 12px;border-radius:50px;border:1px solid var(--border-subtle);color:var(--text-muted)}
+.tnav a.on{color:var(--a-soft);border-color:rgba(var(--a-rgb),.5)}
+.fin{width:100%;background:var(--bg-base);border:1px solid var(--border-subtle);color:var(--text-main);border-radius:12px;padding:10px 12px;font:inherit;font-size:.9rem;margin-bottom:10px}
+.fin:focus{outline:2px solid var(--a-soft);outline-offset:1px}
+textarea.fin{resize:vertical}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#1c2533;color:#fff;padding:10px 18px;border-radius:50px;font-size:.85rem;z-index:800;border:1px solid var(--border-subtle);opacity:0;pointer-events:none;transition:opacity .2s;max-width:90vw;text-align:center}
+#toast.on{opacity:1}
+.pf{padding:24px 16px;text-align:center}
+.avw{position:relative;width:112px;height:112px;margin:0 auto 14px}
+.avw .big{width:112px;height:112px;border-radius:50%;object-fit:cover;border:2px solid rgba(var(--a-rgb),.6);background:rgba(var(--a-rgb),.2);display:flex;align-items:center;justify-content:center;font-size:2.6rem;font-weight:800}
+.avw button{position:absolute;right:-2px;bottom:-2px;width:38px;height:38px;border-radius:50%;border:2px solid var(--bg-card);background:var(--neon-indigo);color:#fff;font-size:1rem;cursor:pointer}
+.nmrow{display:flex;align-items:center;justify-content:center;gap:8px;font-size:1.3rem;font-weight:800}
+.ic{background:none;border:1px solid var(--border-subtle);border-radius:50%;width:34px;height:34px;cursor:pointer;font-size:.95rem}
+.nedit{display:flex;gap:8px;max-width:360px;margin:0 auto 6px}.nedit .fin{margin:0}
+.pcard{padding:14px 16px;border-bottom:1px solid var(--border-subtle)}.pcard:last-child{border-bottom:none}
+.ptop{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
+.ptitle{font-weight:800;font-size:.98rem}
+.pact{display:flex;gap:8px;flex-wrap:wrap}
+.pform{margin-top:12px}.pform .btn{margin:0 8px 10px 0}
+.thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.th{position:relative}.th img{width:84px;height:84px;object-fit:cover;border-radius:10px;border:1px solid var(--border-subtle)}
+.th button{position:absolute;top:-6px;right:-6px;width:22px;height:22px;border-radius:50%;border:none;background:#ef4444;color:#fff;cursor:pointer;font-size:.7rem}
+.note{font-size:.8rem;color:var(--text-muted);margin:8px 0 0}
+.mtabs{display:flex;gap:8px;margin-bottom:14px}.mtabs .btn.on{background:rgba(var(--a-rgb),.35)}
+.cdet{margin-top:12px}
+</style>
+</head>
+<body>
+<div class="gate" id="gate" role="status" aria-live="polite"><div><h1 id="gt">Loading...</h1><p id="gp"></p><span id="gb"></span></div></div>
+<div id="app" hidden>
+<header class="bar"><div class="bar-in">
+<a class="brand" href="index.html"><span class="badge">LONY</span> Projects</a>
+<nav class="tnav"><a href="index.html#projects">Projects</a><a href="myprojects.html" class="on">My Projects</a><a href="profile.html">Profile</a></nav>
+</div></header>
+<main class="wrap">
+<h1>My Projects</h1>
+<p class="lead">Projects you select appear here. Upload your work and a review, then mark it Completed.</p>
+<div class="mtabs"><button class="btn on" type="button" id="tp">Pending</button><button class="btn" type="button" id="tc">Completed</button></div>
+<section class="panel"><div id="list"></div><div class="empty" id="empty" hidden></div></section>
+</main>
+</div>
+<div id="toast" role="status"></div>
+<script type="module">
+import { configured, onUser, getProfile, listMyProjects, listMyReviews, saveReview, completeProject, removeProject, friendlyError } from "./auth.js";
+import { imgToDataUrl, reviewEl } from "./media.js";
+
+const $ = (id) => document.getElementById(id);
+const el = (t, c, txt) => { const e = document.createElement(t); if (c) e.className = c; if (txt != null) e.textContent = txt; return e; };
+let tt; function toast(m) { const t = $("toast"); t.textContent = m; t.classList.add("on"); clearTimeout(tt); tt = setTimeout(() => t.classList.remove("on"), 2600); }
+function gate(title, text, href, label) {
+  $("app").hidden = true; $("gate").hidden = false; $("gt").textContent = title; $("gp").textContent = text;
+  const gb = $("gb"); gb.textContent = "";
+  if (href) { const a = el("a", "btn", label); a.href = href; gb.appendChild(a); }
+}
+
+let U = null, prof = {}, mp = [], rv = {}, tab = "pending";
+const isDone = (p) => p.status === "completed";
+
+function buildForm(w, p, r) {
+  let imgs = r && r.images ? r.images.slice() : [];
+  const url = el("input", "fin"); url.type = "url"; url.maxLength = 300; url.value = r ? r.url || "" : "";
+  url.placeholder = "Project URL (GitHub / live link / video), optional";
+  const add = el("button", "btn", "📷 Add images (max 3)"); add.type = "button";
+  const file = el("input"); file.type = "file"; file.accept = "image/*"; file.multiple = true; file.hidden = true;
+  const thumbs = el("div", "thumbs");
+  const paint = () => {
+    thumbs.textContent = "";
+    imgs.forEach((src, i) => {
+      const t = el("div", "th"), im = el("img"); im.src = src; im.alt = "";
+      const x = el("button", null, "✕"); x.type = "button"; x.onclick = () => { imgs.splice(i, 1); paint(); };
+      t.append(im, x); thumbs.appendChild(t);
+    });
+  };
+  add.onclick = () => file.click();
+  file.onchange = async () => {
+    for (const f of file.files) {
+      if (imgs.length >= 3) { toast("Maximum 3 images"); break; }
+      try { imgs.push(await imgToDataUrl(f, 900, 0.7)); } catch (e) { toast(e.message); }
+    }
+    file.value = ""; paint();
+  };
+  const txt = el("textarea", "fin"); txt.rows = 5; txt.maxLength = 1500; txt.value = r ? r.text || "" : "";
+  txt.placeholder = "Review: how you built it, what you learned, problems you faced...";
+  const save = el("button", "btn ok", "Save review"); save.type = "button";
+  save.onclick = async () => {
+    const text = txt.value.trim(), u = url.value.trim();
+    if (!text && !u && !imgs.length) { toast("Add a URL, an image or a review first"); return; }
+    if (u && !/^https?:\/\//i.test(u)) { toast("URL must start with http:// or https://"); return; }
+    if (imgs.join("").length > 750000) { toast("Images are too large. Remove one."); return; }
+    save.disabled = true;
+    try {
+      const data = { name: prof.name || U.displayName || "Student", avatar: prof.avatar || "", text, url: u, images: imgs };
+      const done = !!(rv[p.slug] && rv[p.slug].completed);
+      await saveReview(U.uid, { slug: p.slug, title: p.title }, data, done);
+      rv[p.slug] = { ...data, uid: U.uid, slug: p.slug, title: p.title, completed: done };
+      toast("Review saved ✅ Now tap Completed"); draw();
+    } catch (e) { toast(friendlyError(e)); }
+    save.disabled = false;
+  };
+  w.append(url, add, file, thumbs, txt, save); paint();
+}
+
+function pendingCard(p) {
+  const r = rv[p.slug], card = el("div", "pcard");
+  const top = el("div", "ptop"), a = el("a", "ptitle", p.title); a.href = "project.html?t=" + encodeURIComponent(p.title);
+  top.append(a, el("span", "pst pending", "Pending")); card.appendChild(top);
+  const act = el("div", "pact"), fw = el("div", "pform"); fw.hidden = true;
+  const up = el("button", "btn", r ? "✏️ Edit review" : "⬆️ Upload & Review"); up.type = "button"; up.onclick = () => { fw.hidden = !fw.hidden; };
+  act.appendChild(up);
+  if (r) {
+    const c = el("button", "btn ok", "✅ Completed"); c.type = "button";
+    c.onclick = async () => {
+      if (!confirm("Mark this project as completed? Your review will be visible to other students.")) return;
+      c.disabled = true;
+      try { await completeProject(U.uid, p.slug); p.status = "completed"; r.completed = true; draw(); toast("Completed 🎉"); }
+      catch (e) { toast(friendlyError(e)); c.disabled = false; }
+    };
+    act.appendChild(c);
+  }
+  const rm = el("button", "btn no", "Remove"); rm.type = "button";
+  rm.onclick = async () => {
+    if (!confirm("Remove this project from your list?")) return;
+    try { await removeProject(U.uid, p.slug); mp = mp.filter((x) => x.slug !== p.slug); draw(); } catch (e) { toast(friendlyError(e)); }
+  };
+  act.appendChild(rm); card.append(act);
+  if (r) card.appendChild(el("p", "note", "Review saved. Other students can see it after you mark the project Completed."));
+  card.appendChild(fw); buildForm(fw, p, r); return card;
+}
+
+function doneCard(p) {
+  const r = rv[p.slug], card = el("div", "pcard");
+  const top = el("div", "ptop"), t = el("button", "btn", p.title); t.type = "button";
+  const det = el("div", "cdet"); det.hidden = true;
+  t.onclick = () => { det.hidden = !det.hidden; };
+  top.append(t, el("span", "pst approved", "✅ Completed")); card.appendChild(top);
+  if (r) det.appendChild(reviewEl(r)); else det.appendChild(el("p", "note", "No review added."));
+  const a = el("a", "btn", "View project"); a.href = "project.html?t=" + encodeURIComponent(p.title); det.appendChild(a);
+  card.appendChild(det); return card;
+}
+
+function draw() {
+  const pend = mp.filter((p) => !isDone(p)), done = mp.filter(isDone);
+  $("tp").textContent = "Pending (" + pend.length + ")"; $("tc").textContent = "Completed (" + done.length + ")";
+  $("tp").classList.toggle("on", tab === "pending"); $("tc").classList.toggle("on", tab === "completed");
+  const list = tab === "pending" ? pend : done, box = $("list"); box.textContent = "";
+  list.sort((a, b) => (b.selectedAt?.seconds || 0) - (a.selectedAt?.seconds || 0));
+  list.forEach((p) => box.appendChild(tab === "pending" ? pendingCard(p) : doneCard(p)));
+  const e = $("empty"); e.hidden = list.length > 0;
+  e.textContent = "";
+  if (!list.length) {
+    e.append(tab === "pending" ? "No pending projects yet. Pick one from the projects page: " : "No completed projects yet.");
+    if (tab === "pending") { const a = el("a", "btn", "Select project"); a.href = "index.html#projects"; e.append(a); }
+  }
+}
+$("tp").onclick = () => { tab = "pending"; draw(); };
+$("tc").onclick = () => { tab = "completed"; draw(); };
+
+if (!configured) gate("Firebase setup pending", "Fill FIREBASE_CONFIG in auth.js.", "index.html", "Back to site");
+else onUser(async (u) => {
+  if (!u) { location.replace("login.html?next=myprojects.html"); return; }
+  U = u;
+  try {
+    const [pr, l, rs] = await Promise.all([getProfile(u.uid), listMyProjects(u.uid), listMyReviews(u.uid)]);
+    prof = pr; mp = l; rs.forEach((r) => { rv[r.slug] = r; });
+  } catch (e) { toast(friendlyError(e)); }
+  $("gate").hidden = true; $("app").hidden = false; draw();
+});
+
+</script>
+</body>
+</html>
