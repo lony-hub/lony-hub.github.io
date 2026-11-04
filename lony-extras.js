@@ -28,16 +28,20 @@
     "@keyframes lxfloat{50%{transform:translateY(-6px);box-shadow:0 0 0 1px rgba(255,255,255,.1),0 20px 50px rgba(168,85,247,.5)}}",
     ".lx-word{font-weight:800;letter-spacing:.14em;font-size:1.25rem;background:linear-gradient(110deg,var(--lx-a),var(--lx-c),#fff,var(--lx-b),var(--lx-a));background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:lxshine 2.6s linear infinite}",
     "@keyframes lxshine{to{background-position:200% center}}",
-    ".lx-logo{position:relative;overflow:hidden;line-height:0}",
-    ".lx-logo img{height:clamp(80px,22vw,120px);width:auto;max-width:70vw;display:block;animation:lxfloat2 2.2s ease-in-out infinite,lxglow 2.2s ease-in-out infinite}",
-    ".lx-logo::after{content:'';position:absolute;inset:0;background:linear-gradient(120deg,transparent 35%,rgba(255,255,255,.95) 50%,transparent 65%);background-size:250% 100%;background-position:150% 0;-webkit-mask:url(lony-logo.png) center/contain no-repeat;mask:url(lony-logo.png) center/contain no-repeat;animation:lxlogoshine 2.6s ease-in-out infinite;pointer-events:none}",
-    "@keyframes lxglow{0%,100%{filter:drop-shadow(0 0 6px rgba(99,102,241,.7)) drop-shadow(0 0 16px rgba(168,85,247,.4))}50%{filter:drop-shadow(0 0 14px rgba(99,102,241,1)) drop-shadow(0 0 32px rgba(6,182,212,.75))}}",
+    ".lx-logo{position:relative;line-height:0;border-radius:22%;animation:lxglowbox 2.2s ease-in-out infinite}",
+    ".lx-logo img{height:clamp(110px,34vw,160px);width:auto;max-width:70vw;display:block;border-radius:22%;animation:lxfloat2 2.2s ease-in-out infinite}",
+    ".lx-logo::after{content:'';position:absolute;inset:0;border-radius:22%;background:linear-gradient(120deg,transparent 35%,rgba(255,255,255,.95) 50%,transparent 65%);background-size:250% 100%;background-position:150% 0;-webkit-mask:url(lony-logo.png) center/contain no-repeat;mask:url(lony-logo.png) center/contain no-repeat;animation:lxlogoshine 2.6s ease-in-out infinite;pointer-events:none}",
+    "@keyframes lxglowbox{0%,100%{box-shadow:0 0 18px 2px rgba(99,102,241,.55),0 0 46px 6px rgba(168,85,247,.3)}50%{box-shadow:0 0 30px 6px rgba(99,102,241,.95),0 0 70px 14px rgba(6,182,212,.55)}}",
     "@keyframes lxfloat2{50%{transform:translateY(-6px)}}",
     "@keyframes lxlogoshine{0%{background-position:150% 0}60%,100%{background-position:-50% 0}}",
-    ".lx-sub{font-size:.8rem;color:var(--lx-mu);margin-top:-8px}",
+    ".lx-sub{font-size:1rem;font-weight:700;letter-spacing:.32em;text-transform:uppercase;margin-top:-4px;padding-left:.32em;color:#c7d2fe;text-shadow:0 0 8px rgba(99,102,241,.9),0 0 20px rgba(6,182,212,.55);animation:lxtxt 1.8s ease-in-out infinite}",
+    "@keyframes lxtxt{0%,100%{opacity:.65}50%{opacity:1}}",
+    ".lx-dots b{display:inline-block;font-weight:900;animation:lxdot 1.2s ease-in-out infinite}",
+    ".lx-dots b:nth-child(2){animation-delay:.2s}.lx-dots b:nth-child(3){animation-delay:.4s}",
+    "@keyframes lxdot{0%,80%,100%{opacity:.2;transform:translateY(0)}40%{opacity:1;transform:translateY(-4px)}}",
     ".lx-bar{width:min(240px,64vw);height:5px;border-radius:9px;background:rgba(148,163,184,.2);overflow:hidden}",
     ".lx-bar i{display:block;height:100%;width:100%;border-radius:9px;background:linear-gradient(90deg,var(--lx-a),var(--lx-c));transform-origin:left;transform:scaleX(.08);transition:transform .35s ease}",
-    "@media(prefers-reduced-motion:reduce){.lx-mark,.lx-word,.lx-logo img,.lx-logo::after{animation:none}#lony-ld,.lx-bar i{transition:none}}",
+    "@media(prefers-reduced-motion:reduce){.lx-mark,.lx-word,.lx-logo,.lx-logo img,.lx-logo::after,.lx-sub,.lx-dots b{animation:none}#lony-ld,.lx-bar i{transition:none}}",
     /* banners / toasts */
     ".lx-net{position:fixed;left:0;right:0;top:0;z-index:99990;display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;padding:calc(10px + env(safe-area-inset-top,0px)) 14px 10px;font:600 .85rem/1.4 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:#fff;transform:translateY(-110%);transition:transform .3s ease}",
     ".lx-net.on{transform:none}.lx-net.off{background:#b91c1c}.lx-net.slow{background:#b45309}.lx-net.ok{background:#047857}",
@@ -79,7 +83,7 @@
   /* =========================================================
      1) LOADING SCREEN  (stage based progress, no fake delay)
      ========================================================= */
-  var ld = el("div", "", '<div class="lx-logo"><img src="lony-logo.png" alt="LONY" onerror="this.parentNode.outerHTML=\'&lt;div class=&quot;lx-mark&quot; aria-hidden=&quot;true&quot;&gt;L&lt;/div&gt;&lt;div class=&quot;lx-word&quot;&gt;LONY&lt;/div&gt;\'"></div><div class="lx-sub">Loading your projects…</div><div class="lx-bar" aria-hidden="true"><i></i></div>');
+  var ld = el("div", "", '<div class="lx-logo"><img src="lony-logo.png" alt="LONY" onerror="this.parentNode.outerHTML=\'&lt;div class=&quot;lx-mark&quot; aria-hidden=&quot;true&quot;&gt;L&lt;/div&gt;&lt;div class=&quot;lx-word&quot;&gt;LONY&lt;/div&gt;\'"></div><div class="lx-sub">Loading<span class="lx-dots" aria-hidden="true"><b>.</b><b>.</b><b>.</b></span></div><div class="lx-bar" aria-hidden="true"><i></i></div>');
   ld.id = "lony-ld"; ld.setAttribute("role", "status"); ld.setAttribute("aria-live", "polite"); ld.setAttribute("aria-label", "Loading LONY Projects");
   R.appendChild(ld);
   var bar = ld.querySelector(".lx-bar i"), ldDone = false;
