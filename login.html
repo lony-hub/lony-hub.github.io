@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="lony-extras.js"></script>
+<title>Login - LONY Projects</title>
+<meta name="theme-color" content="#07090e">
+<script>try{var _t=localStorage.getItem("lony_theme");if(_t)document.documentElement.setAttribute("data-theme",_t)}catch(e){}</script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+:root{--bg-base:#07090e;--bg-surface:#0f141d;--bg-card:#141b26;--bg-card-hover:#1c2533;--border-subtle:#212c3d;--text-main:#f8fafc;--text-muted:#94a3b8;--neon-indigo:#6366f1;--neon-purple:#a855f7;--neon-cyan:#06b6d4}
+:root{--a-rgb:99,102,241;--b-rgb:168,85,247;--c-rgb:6,182,212;--a-soft:#818cf8;--a-deep:#4f46e5}
+html[data-theme="indigo"]{--bg-base:#07090e;--bg-surface:#0f141d;--bg-card:#141b26;--bg-card-hover:#1c2533;--border-subtle:#212c3d;--neon-indigo:#6366f1;--neon-purple:#a855f7;--neon-cyan:#06b6d4;--a-rgb:99,102,241;--b-rgb:168,85,247;--c-rgb:6,182,212;--a-soft:#818cf8;--a-deep:#4f46e5}
+html[data-theme="cyber"]{--bg-base:#050810;--bg-surface:#0b111c;--bg-card:#0f1726;--bg-card-hover:#162238;--border-subtle:#1c2b45;--neon-indigo:#00e5ff;--neon-purple:#ff2bd6;--neon-cyan:#00ffa3;--a-rgb:0,229,255;--b-rgb:255,43,214;--c-rgb:0,255,163;--a-soft:#5eead4;--a-deep:#0891b2}
+html[data-theme="emerald"]{--bg-base:#040d0a;--bg-surface:#0a1612;--bg-card:#0e1d18;--bg-card-hover:#15291f;--border-subtle:#1a3328;--neon-indigo:#10b981;--neon-purple:#84cc16;--neon-cyan:#22d3ee;--a-rgb:16,185,129;--b-rgb:132,204,22;--c-rgb:34,211,238;--a-soft:#34d399;--a-deep:#059669}
+html[data-theme="sunset"]{--bg-base:#0f0705;--bg-surface:#1a0f0b;--bg-card:#211410;--bg-card-hover:#2d1c15;--border-subtle:#3a2419;--neon-indigo:#f97316;--neon-purple:#ef4444;--neon-cyan:#facc15;--a-rgb:249,115,22;--b-rgb:239,68,68;--c-rgb:250,204,21;--a-soft:#fb923c;--a-deep:#ea580c}
+html[data-theme="gold"]{--bg-base:#0b0905;--bg-surface:#16120a;--bg-card:#1d170d;--bg-card-hover:#292012;--border-subtle:#3a2e17;--neon-indigo:#f59e0b;--neon-purple:#fde047;--neon-cyan:#fb923c;--a-rgb:245,158,11;--b-rgb:253,224,71;--c-rgb:251,146,60;--a-soft:#fbbf24;--a-deep:#d97706}
+html[data-theme="ocean"]{--bg-base:#040e14;--bg-surface:#09161e;--bg-card:#0d1e29;--bg-card-hover:#142c3a;--border-subtle:#1a3a4c;--neon-indigo:#0ea5e9;--neon-purple:#06b6d4;--neon-cyan:#2dd4bf;--a-rgb:14,165,233;--b-rgb:6,182,212;--c-rgb:45,212,191;--a-soft:#38bdf8;--a-deep:#0284c7}
+html[data-theme="rose"]{--bg-base:#0e050b;--bg-surface:#190b14;--bg-card:#20101a;--bg-card-hover:#2d1625;--border-subtle:#3b1e30;--neon-indigo:#ec4899;--neon-purple:#a855f7;--neon-cyan:#fb7185;--a-rgb:236,72,153;--b-rgb:168,85,247;--c-rgb:251,113,133;--a-soft:#f472b6;--a-deep:#db2777}
+body{min-height:100vh;min-height:100dvh;background:var(--bg-base);color:var(--text-main);line-height:1.6;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;background-image:radial-gradient(520px 320px at 85% 0,rgba(var(--a-rgb),.18),transparent 70%),radial-gradient(480px 320px at 0 70%,rgba(var(--b-rgb),.12),transparent 70%);background-repeat:no-repeat}
+a{color:inherit;text-decoration:none}
+.top{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;max-width:1100px;width:100%;margin:0 auto}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.15rem;letter-spacing:-.5px}
+.badge{background:linear-gradient(135deg,var(--neon-indigo),var(--neon-purple));color:#fff;padding:5px 12px;border-radius:10px;font-size:.8rem;font-weight:900}
+.back{font-size:.85rem;font-weight:600;color:var(--text-muted)}
+.back:hover{color:var(--neon-cyan)}
+main{flex:1;display:flex;align-items:center;justify-content:center;padding:16px 16px 40px}
+.card{width:100%;max-width:400px;background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:24px;padding:24px;box-shadow:0 10px 30px -10px rgba(0,0,0,.5),0 0 25px rgba(var(--a-rgb),.15)}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--bg-base);border:1px solid var(--border-subtle);border-radius:50px;padding:4px;margin-bottom:22px}
+.tab{border:none;background:transparent;color:var(--text-muted);font-size:.85rem;font-weight:700;padding:9px 6px;border-radius:50px;cursor:pointer;transition:background .2s,color .2s}
+.tab[aria-selected="true"]{background:linear-gradient(135deg,var(--neon-indigo),var(--neon-purple));color:#fff}
+.tab:focus-visible,.g-btn:focus-visible,.alt:focus-visible{outline:2px solid var(--a-soft);outline-offset:2px}
+h1{font-size:1.45rem;font-weight:800;letter-spacing:-.4px;margin-bottom:4px}
+.sub{font-size:.9rem;color:var(--text-muted);margin-bottom:22px}
+.g-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:12px;background:#fff;color:#1f2937;border:none;border-radius:50px;padding:13px 16px;font-size:.95rem;font-weight:700;cursor:pointer;transition:transform .15s,opacity .15s}
+.g-btn:hover{transform:translateY(-1px)}
+.g-btn[disabled]{opacity:.6;cursor:progress;transform:none}
+.g-btn svg{width:20px;height:20px;flex:none}
+.msg{min-height:1.4em;margin-top:14px;font-size:.85rem;color:#f87171}
+.msg.ok{color:#34d399}
+.note{margin-top:18px;font-size:.78rem;color:var(--text-muted)}
+.warn{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.4);color:#fcd34d;border-radius:12px;padding:10px 12px;font-size:.8rem;margin-bottom:16px}
+.who{display:flex;align-items:center;gap:12px;background:var(--bg-base);border:1px solid var(--border-subtle);border-radius:16px;padding:12px;margin-bottom:16px}
+.who img{width:42px;height:42px;border-radius:50%}
+.who b{display:block;font-size:.92rem}
+.who span{font-size:.78rem;color:var(--text-muted);word-break:break-all}
+.alt{display:block;width:100%;text-align:center;margin-top:10px;background:transparent;border:1px solid var(--border-subtle);color:var(--text-main);border-radius:50px;padding:11px;font-size:.88rem;font-weight:700;cursor:pointer}
+.alt:hover{border-color:var(--a-soft)}
+[hidden]{display:none!important}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="top">
+  <a class="brand" href="index.html"><span class="badge">LONY</span> Projects</a>
+  <a class="back" href="index.html">Back to home</a>
+</div>
+
+<main>
+  <section class="card" aria-labelledby="ttl">
+    <div class="tabs" role="tablist" aria-label="Login type">
+      <button class="tab" role="tab" id="t-signin" data-mode="signin" aria-selected="true" aria-controls="panel">Sign in</button>
+      <button class="tab" role="tab" id="t-signup" data-mode="signup" aria-selected="false" aria-controls="panel" tabindex="-1">Sign up</button>
+      <button class="tab" role="tab" id="t-admin" data-mode="admin" aria-selected="false" aria-controls="panel" tabindex="-1">Admin</button>
+    </div>
+
+    <div id="panel" role="tabpanel">
+      <div class="warn" id="cfgwarn" hidden>Firebase setup pending. Fill in FIREBASE_CONFIG in <b>auth.js</b> (see FIREBASE_SETUP.md).</div>
+
+      <div id="signedout">
+        <h1 id="ttl"></h1>
+        <p class="sub" id="sub"></p>
+        <button type="button" class="g-btn" id="gbtn">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+          <span id="glabel"></span>
+        </button>
+        <p class="note" id="note"></p>
+      </div>
+
+      <div id="signedin" hidden>
+        <h1>You're signed in</h1>
+        <div class="who">
+          <img id="uimg" alt="" referrerpolicy="no-referrer" hidden>
+          <div><b id="uname"></b><span id="umail"></span></div>
+        </div>
+        <button type="button" class="g-btn" id="go" style="background:linear-gradient(135deg,var(--neon-indigo),var(--neon-purple));color:#fff">Continue</button>
+        <button type="button" class="alt" id="adm" hidden>Open Admin panel</button>
+        <button type="button" class="alt" id="out">Sign out</button>
+      </div>
+
+      <div class="msg" id="msg" role="status" aria-live="polite"></div>
+    </div>
+  </section>
+</main>
+
+<script type="module">
+import { configured, onUser, signInWithGoogle, logout, isAdminUser, safeNext, friendlyError } from "./auth.js";
+
+const $ = (id) => document.getElementById(id);
+const params = new URLSearchParams(location.search);
+const nextParam = params.get("next");
+
+const COPY = {
+  signin: { t: "Welcome back", s: "Sign in with your Google account to continue.", b: "Sign in with Google",
+            n: "Don't have an account? Use the Sign up tab." },
+  signup: { t: "Create your account", s: "One tap with Google. No password to remember.", b: "Sign up with Google",
+            n: "If you already have an account, you'll simply be signed in." },
+  admin:  { t: "Admin login", s: "Only approved admin Google accounts can enter the Admin panel.", b: "Admin sign in with Google",
+            n: "Accounts that are not admins cannot get access." }
+};
+
+let mode = ["signin", "signup", "admin"].includes(params.get("mode")) ? params.get("mode") : "signin";
+
+function setMode(m, focus) {
+  mode = m;
+  document.querySelectorAll(".tab").forEach((t) => {
+    const on = t.dataset.mode === m;
+    t.setAttribute("aria-selected", on);
+    t.tabIndex = on ? 0 : -1;
+    if (on && focus) t.focus();
+  });
+  const c = COPY[m];
+  $("ttl").textContent = c.t; $("sub").textContent = c.s;
+  $("glabel").textContent = c.b; $("note").textContent = c.n;
+  setMsg("");
+}
+function setMsg(t, ok) { const m = $("msg"); m.textContent = t; m.className = "msg" + (ok ? " ok" : ""); }
+
+document.querySelector(".tabs").addEventListener("click", (e) => {
+  const b = e.target.closest(".tab"); if (b) setMode(b.dataset.mode);
+});
+document.querySelector(".tabs").addEventListener("keydown", (e) => {
+  const order = ["signin", "signup", "admin"];
+  const i = order.indexOf(mode);
+  if (e.key === "ArrowRight") { e.preventDefault(); setMode(order[(i + 1) % 3], true); }
+  if (e.key === "ArrowLeft") { e.preventDefault(); setMode(order[(i + 2) % 3], true); }
+});
+
+function destination(admin) {
+  if (mode === "admin" || (admin && nextParam === "admin.html")) return "admin.html";
+  return safeNext(nextParam, "index.html");
+}
+
+$("gbtn").addEventListener("click", async () => {
+  const btn = $("gbtn");
+  btn.disabled = true; setMsg("Google window open aagudhu...", true);
+  try {
+    const r = await signInWithGoogle(mode);
+    if (mode === "signup" && !r.isNew) setMsg("This account already exists. You are signed in.", true);
+    else setMsg(r.isNew ? "Account ready! Redirect aagudhu..." : "Signed in! Redirect aagudhu...", true);
+    setTimeout(() => location.href = destination(r.admin), 700);
+  } catch (e) {
+    setMsg(friendlyError(e));
+    btn.disabled = false;
+  }
+});
+
+$("out").addEventListener("click", async () => { await logout(); setMsg("Signed out.", true); });
+$("go").addEventListener("click", () => { location.href = safeNext(nextParam, "index.html"); });
+$("adm").addEventListener("click", () => { location.href = "admin.html"; });
+
+setMode(mode);
+if (!configured) $("cfgwarn").hidden = false;
+
+onUser((u) => {
+  const inn = !!u;
+  $("signedout").hidden = inn; $("signedin").hidden = !inn;
+  document.querySelector(".tabs").hidden = inn;
+  if (!inn) return;
+  $("uname").textContent = u.displayName || "Student";
+  $("umail").textContent = u.email || "";
+  const img = $("uimg");
+  if (u.photoURL) { img.src = u.photoURL; img.hidden = false; } else img.hidden = true;
+  $("adm").hidden = !isAdminUser(u);
+});
+</script>
+</body>
+</html>
