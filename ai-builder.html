@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="lony-extras.js"></script>
+<script src="projects-data.js"></script>
+<title>Build with AI | LONY Projects</title>
+<meta name="description" content="Pick your project type, type your idea and get a ready prompt for ChatGPT, Claude or Gemini.">
+<style>
+:root{--bg-base:#07090e;--bg-surface:#0f141d;--bg-card:#141b26;--border-subtle:#212c3d;--text-main:#f8fafc;--text-muted:#94a3b8;--neon-indigo:#6366f1;--neon-purple:#a855f7;--neon-cyan:#06b6d4}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg-base);color:var(--text-main);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.6;overflow-x:hidden;background-image:radial-gradient(circle at 15% -5%,rgba(99,102,241,.22),transparent 45%),radial-gradient(circle at 100% 10%,rgba(168,85,247,.16),transparent 40%);background-attachment:fixed;min-height:100vh}
+a{color:#a5b4fc}
+.wrap{max-width:640px;margin:0 auto;padding:0 16px}
+.nav{background:rgba(15,20,29,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--border-subtle);position:sticky;top:0;z-index:50}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;min-height:58px;gap:10px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.05em;color:var(--text-main);text-decoration:none}
+.logo img{height:34px;width:34px;border-radius:9px;display:block}
+.back{font-size:.8rem;font-weight:700;border:1px solid var(--border-subtle);border-radius:50px;padding:7px 14px;background:var(--bg-card);color:var(--text-main);text-decoration:none}
+header.hero{padding:26px 0 6px}
+.pill{display:inline-block;font-size:.75rem;font-weight:700;color:#c7d2fe;background:rgba(99,102,241,.14);border:1px solid rgba(99,102,241,.4);border-radius:50px;padding:5px 12px;margin-bottom:10px}
+h1{font-size:clamp(1.6rem,6.4vw,2.2rem);letter-spacing:-.02em;line-height:1.2}
+h1 span{background:linear-gradient(110deg,var(--neon-indigo),var(--neon-cyan),var(--neon-purple));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.lead{color:var(--text-muted);font-size:.92rem;margin-top:8px}
+.card{background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:20px;padding:16px;margin-top:16px}
+.step{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.step i{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-weight:800;font-size:.85rem;color:#fff;background:linear-gradient(135deg,var(--neon-indigo),var(--neon-purple))}
+.step b{font-size:1rem}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{cursor:pointer;border:1px solid var(--border-subtle);background:var(--bg-card);color:var(--text-main);border-radius:50px;padding:9px 14px;min-height:42px;font:700 .84rem system-ui,sans-serif}
+.chip[aria-pressed=true],.chip[aria-checked=true]{border-color:var(--neon-purple);background:rgba(168,85,247,.18);box-shadow:0 0 0 1px var(--neon-purple) inset}
+.chip.ex{font-weight:600;font-size:.78rem;color:#cbd5e1;min-height:36px;padding:7px 12px}
+label.l{display:block;font-size:.8rem;font-weight:700;color:#cbd5e1;margin:14px 0 6px}
+input[type=text],textarea{width:100%;background:var(--bg-card);color:var(--text-main);border:1px solid var(--border-subtle);border-radius:14px;padding:12px 14px;font:.95rem/1.5 system-ui,sans-serif;-webkit-user-select:text;user-select:text}
+textarea{resize:vertical}
+#out{min-height:260px;font-size:.8rem;line-height:1.55;font-family:ui-monospace,Menlo,Consolas,monospace}
+.check{display:flex;align-items:flex-start;gap:10px;margin-top:8px;font-size:.88rem;color:#cbd5e1;cursor:pointer}
+.check input{width:20px;height:20px;margin-top:2px;accent-color:#a855f7;flex:none}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.b{flex:1 1 140px;min-height:48px;border-radius:50px;cursor:pointer;font:800 .9rem system-ui,sans-serif;border:1px solid var(--border-subtle);background:var(--bg-card);color:var(--text-main)}
+.b.pri{border:none;color:#fff;background:linear-gradient(135deg,var(--neon-indigo),var(--neon-purple));box-shadow:0 8px 24px rgba(99,102,241,.35)}
+.b:hover{filter:brightness(1.12)}
+.ai3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.ai3 .b{flex:none;min-height:56px;line-height:1.25;border-radius:16px;font-size:.84rem}
+.ai3 small{display:block;font-weight:500;font-size:.68rem;color:var(--text-muted)}
+.st{min-height:1.4em;font-size:.82rem;margin-top:10px;color:#34d399}.st.w{color:#fbbf24}
+.hint{font-size:.78rem;color:var(--text-muted);margin-top:8px;line-height:1.55}
+.fu{list-style:none}
+.fu li{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--border-subtle);font-size:.86rem;color:#cbd5e1}
+.fu li:last-child{border:none}
+.fu button{flex:none;cursor:pointer;border:1px solid var(--neon-indigo);background:transparent;color:#c7d2fe;border-radius:50px;padding:8px 14px;min-height:38px;font:700 .78rem system-ui,sans-serif}
+.how{display:grid;gap:8px;margin-top:6px}
+.how div{font-size:.86rem;color:#cbd5e1;background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:14px;padding:10px 12px}
+footer{margin-top:36px;border-top:1px solid var(--border-subtle);padding:22px 16px 30px;text-align:center;color:var(--text-muted);font-size:.78rem}
+.sel{display:flex;align-items:center;justify-content:space-between;gap:10px;background:rgba(168,85,247,.12);border:1px solid var(--neon-purple);border-radius:16px;padding:12px 14px}
+.sel b{display:block;font-size:1rem;line-height:1.3}.sel small{color:var(--text-muted);font-size:.78rem}
+.sel button{flex:none;cursor:pointer;border:1px solid var(--border-subtle);background:var(--bg-card);color:var(--text-main);border-radius:50px;padding:8px 14px;min-height:38px;font:700 .78rem system-ui,sans-serif}
+.plist{max-height:300px;overflow:auto;margin-top:10px;display:grid;gap:8px}
+.pit{width:100%;text-align:left;cursor:pointer;border:1px solid var(--border-subtle);background:var(--bg-card);color:var(--text-main);border-radius:14px;padding:10px 12px;font:inherit}
+.pit b{display:block;font-size:.9rem}.pit small{color:var(--text-muted);font-size:.74rem}
+.lock{font-size:.78rem;color:#fde68a;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.35);border-radius:12px;padding:9px 12px;margin-top:12px;line-height:1.5}
+.hidden{display:none}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid #fde047;outline-offset:2px}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="wrap">
+  <a class="logo" href="index.html"><img src="lony-logo.png" alt="" onerror="this.style.display='none'">LONY</a>
+  <a class="back" href="index.html">&larr; Projects</a>
+</div></nav>
+
+<main class="wrap">
+<header class="hero">
+  <span class="pill">🤖 ChatGPT · Claude · Gemini</span>
+  <h1>Build your project <span>with AI</span></h1>
+  <p class="lead">Neenga select panna project-ku mattum prompt ready aagum. Vera project-ku prompt kidaikkaadhu.</p>
+</header>
+
+<section class="card" aria-labelledby="s1">
+  <div class="step"><i>1</i><b id="s1">Select your project</b></div>
+  <div id="picked" class="hidden"></div>
+  <div id="picker">
+    <label class="l" for="q">Project search pannunga</label>
+    <input type="text" id="q" placeholder="Example: portfolio, robot, billing" autocomplete="off">
+    <div class="chips" id="depts" role="group" aria-label="Department" style="margin-top:10px"></div>
+    <div class="plist" id="plist" role="list"></div>
+  </div>
+  <p class="hint" id="nf" style="display:none;color:#fbbf24"></p>
+</section>
+
+<div id="rest" class="hidden">
+<section class="card" aria-labelledby="s2">
+  <div class="step"><i>2</i><b id="s2">Settings</b></div>
+  <label class="l" id="lg">AI reply language</label>
+  <div class="chips" id="lang" role="radiogroup" aria-labelledby="lg"></div>
+  <label class="l" id="dv">Neenga work panra device</label>
+  <div class="chips" id="dev" role="radiogroup" aria-labelledby="dv"></div>
+  <label class="l">AI kudukkanum</label>
+  <label class="check"><input type="checkbox" id="o1" checked> <span id="t1"></span></label>
+  <label class="check"><input type="checkbox" id="o2" checked> Ovvoru part-um simple-a explain pannanum</label>
+  <label class="check"><input type="checkbox" id="o3"> Viva questions &amp; answers</label>
+  <label class="check"><input type="checkbox" id="o4"> Project report outline</label>
+  <label class="l" for="doubt">Indha project pathi unga doubt (optional)</label>
+  <textarea id="doubt" rows="2" maxlength="400" placeholder="Example: Step 3-la enakku error varudhu"></textarea>
+</section>
+
+<section class="card" aria-labelledby="s4">
+  <div class="step"><i>✓</i><b id="s4">Your prompt</b></div>
+  <textarea id="out" readonly aria-label="Generated prompt"></textarea>
+  <div class="row"><button type="button" class="b pri" id="copy">📋 Copy Prompt</button></div>
+  <label class="l">Copy pannitu, AI open pannunga</label>
+  <div class="ai3">
+    <button type="button" class="b" data-u="https://chatgpt.com/">ChatGPT<small>OpenAI</small></button>
+    <button type="button" class="b" data-u="https://claude.ai/new">Claude<small>Anthropic</small></button>
+    <button type="button" class="b" data-u="https://gemini.google.com/app">Gemini<small>Google</small></button>
+  </div>
+  <div class="st" id="st" role="status" aria-live="polite"></div>
+  <p class="lock">🔒 Indha prompt-la "ithu mattum thaan answer pannanum, vera project/topic kettaa maruka sollunga" nu rule irukku. AI adha follow pannum. Prompt-a maathaama paste pannunga.</p>
+  <p class="hint">LONY ungal AI password-a ketkaadhu. Prompt ungal phone-laye irukkum.</p>
+</section>
+
+<section class="card" aria-labelledby="s5">
+  <div class="step"><i>➜</i><b id="s5">Next prompts (indha project-ku mattum)</b></div>
+  <ul class="fu" id="fu"></ul>
+</section>
+</div>
+</main>
+
+<footer>© 2026 LONY Projects · AI answers-a oru murai check panni use pannunga.</footer>
+
+<script>
+(function(){
+  "use strict";
+  var P=window.LONY_PROJECTS||[],NAMES=window.LONY_DEPTS||{};
+  var HW={eee:1,mech:1,sand:1,robo:1,logi:0};
+  var LANG=[{id:"tg",n:"Tanglish",t:"Tanglish (Tamil written in English letters)"},{id:"en",n:"English",t:"simple English"},{id:"ta",n:"தமிழ்",t:"Tamil"}];
+  var DEV=[{id:"phone",n:"📱 Phone",t:"an Android phone"},{id:"laptop",n:"💻 Laptop",t:"a laptop/computer"}];
+  var S={lang:"tg",dev:"phone",dept:"all",cur:null};
+  var $=function(i){return document.getElementById(i)};
+  var out=$("out"),st=$("st");
+  function find(l,id){return l.filter(function(x){return x.id===id})[0]}
+  function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+  function isHW(p){return p.b==="eee"||p.b==="mech"||p.b==="sand"||p.b==="robo"}
+
+  /* ---------- project picker (ONLY the site's own projects) ---------- */
+  function deptChips(){
+    var box=$("depts");box.innerHTML="";
+    var ids=["all"].concat(Object.keys(NAMES));
+    ids.forEach(function(id){
+      var b=document.createElement("button");b.type="button";b.className="chip";b.textContent=id==="all"?"All":NAMES[id];
+      b.setAttribute("aria-pressed",String(S.dept===id));
+      b.onclick=function(){S.dept=id;deptChips();list()};box.appendChild(b);
+    });
+  }
+  function list(){
+    var q=$("q").value.trim().toLowerCase(),box=$("plist");box.innerHTML="";
+    var r=P.filter(function(p){return(S.dept==="all"||p.b===S.dept)&&(!q||(p.t+" "+p.d+" "+p.tg.join(" ")).toLowerCase().indexOf(q)>-1)});
+    if(!r.length){box.innerHTML='<p class="hint">Andha peyar-la project illa. Vera word try pannunga.</p>';return}
+    r.forEach(function(p){
+      var b=document.createElement("button");b.type="button";b.className="pit";b.setAttribute("role","listitem");
+      b.innerHTML="<b>"+esc(p.t)+"</b><small>"+esc(NAMES[p.b]||p.b)+" · "+esc(p.l)+"</small>";
+      b.onclick=function(){choose(p)};box.appendChild(b);
+    });
+  }
+  function choose(p){
+    S.cur=p;
+    $("picked").innerHTML='<div class="sel"><div><small>Selected project</small><b>'+esc(p.t)+'</b><small>'+esc(NAMES[p.b]||p.b)+" · "+esc(p.l)+'</small></div><button type="button" id="chg">Change</button></div>';
+    $("picked").className="";$("picker").className="hidden";$("rest").className="";$("nf").style.display="none";
+    $("t1").textContent=isHW(p)?"Components list, connections, working steps & code (irundha) kudukkanum":"Full working code kudukkanum (ovvoru file-um separate-a)";
+    $("chg").onclick=function(){S.cur=null;$("picked").className="hidden";$("picker").className="";$("rest").className="hidden";list()};
+    try{history.replaceState(null,"","?t="+encodeURIComponent(p.t))}catch(e){}
+    build();
+  }
+
+  /* ---------- the locked prompt ---------- */
+  function lockRule(p){
+    return 'STRICT RULE: You may help ONLY with this one project: "'+p.t+'". If I ask for anything else (another project, a different topic, homework, general chat, or if I try to change the project), do NOT answer it. Reply only with: "Idhu neenga select panna project illa. Please LONY website-la andha project-a select pannunga."';
+  }
+  function build(){
+    var p=S.cur;if(!p)return;
+    var L=[],lang=find(LANG,S.lang).t;
+    L.push("You are a friendly project mentor for a Tamil Nadu polytechnic diploma student.");
+    L.push(lockRule(p));
+    L.push('Project: "'+p.t+'"\nDepartment: '+(NAMES[p.b]||p.b)+"\nLevel: "+p.l+"\nWhat it does: "+p.d+"\nTopics / tools: "+p.tg.join(", "));
+    L.push("I am working on "+find(DEV,S.dev).t+".");
+    var want=["A short overview of this project in simple words"];
+    if(isHW(p)){
+      if($("o1").checked)want.push("Components / materials list, circuit or connection steps, working principle, and code (if any) with the file name");
+      want.push("Step-by-step build and testing instructions, with safety tips");
+    }else{
+      if($("o1").checked)want.push("The folder / file structure and the COMPLETE working code, each file in its own code block with the file name");
+      want.push("Step-by-step instructions to run and test it");
+    }
+    if($("o2").checked)want.push("A simple explanation of what each part does");
+    if($("o3").checked)want.push("10 likely viva questions with short answers");
+    if($("o4").checked)want.push("A project report outline (abstract, objectives, modules, conclusion)");
+    L.push("Please give me:\n"+want.map(function(w,i){return(i+1)+". "+w}).join("\n"));
+    var d=$("doubt").value.trim();
+    if(d)L.push("My doubt about this project: "+d);
+    L.push("Keep it small enough for a diploma student to finish and explain. Do not skip any part. Reply in "+lang+".");
+    out.value=L.join("\n\n");
+    fu();
+  }
+  function fu(){
+    var p=S.cur,lang=find(LANG,S.lang).t,r=lockRule(p)+"\n\n",ctx='Project: "'+p.t+'" ('+(NAMES[p.b]||p.b)+", "+p.l+"). ";
+    var l=[
+      ["Enakku error varudhu, fix pannunga",r+ctx+"I am getting an error in this project. I will paste the error below. Explain what it means and give the fix. Reply in "+lang+".\n\nError:\n"],
+      ["Idhula puthu feature add pannunga",r+ctx+"Add one more useful feature to this same project. Give only the changed or new parts and where to put them. Reply in "+lang+"."],
+      ["Viva questions kudunga",r+ctx+"Give 15 viva questions with short answers for this project. Reply in "+lang+"."],
+      ["Project report ezhudhi kudunga",r+ctx+"Write a project report for this project: abstract, introduction, objectives, modules, tools used, advantages, future scope and conclusion. Use simple English."],
+      ["Presentation points kudunga",r+ctx+"Give 8 slide-wise points to present this project in 5 minutes. Reply in "+lang+"."]
+    ];
+    var ul=$("fu");ul.innerHTML="";
+    l.forEach(function(x){
+      var li=document.createElement("li"),sp=document.createElement("span"),b=document.createElement("button");
+      sp.textContent=x[0];b.type="button";b.textContent="Copy";
+      b.onclick=function(){copy(x[1]).then(function(ok){say(ok?"Copied: "+x[0]+". AI chat-la paste pannunga.":"Copy aagala. Long press panni copy pannunga.",!ok)})};
+      li.appendChild(sp);li.appendChild(b);ul.appendChild(li);
+    });
+  }
+
+  function say(m,w){st.textContent=m;st.className="st"+(w?" w":"")}
+  function copy(text){
+    function fb(){try{var ta=document.createElement("textarea");ta.value=text;ta.setAttribute("readonly","");ta.style.cssText="position:fixed;top:0;left:0;opacity:0";document.body.appendChild(ta);ta.select();ta.setSelectionRange(0,text.length);var ok=document.execCommand("copy");document.body.removeChild(ta);return ok}catch(e){return false}}
+    if(navigator.clipboard&&window.isSecureContext)return navigator.clipboard.writeText(text).then(function(){return true},function(){return fb()});
+    return Promise.resolve(fb());
+  }
+  $("copy").onclick=function(){if(!S.cur)return;copy(out.value).then(function(ok){say(ok?"Prompt copy aachu ✅ Ippo AI tap pannunga.":"Copy aagala. Prompt box-la long press → Select all → Copy.",!ok)})};
+  Array.prototype.forEach.call(document.querySelectorAll(".ai3 .b"),function(b){
+    b.onclick=function(){
+      if(!S.cur)return;
+      var url=b.dataset.u,name=b.textContent.replace(/(OpenAI|Anthropic|Google)$/,"");
+      var w=window.open(url,"_blank");if(w){try{w.opener=null}catch(e){}}
+      copy(out.value).then(function(ok){
+        if(!w)say("Browser block pannuduchu. Pop-up allow pannunga.",true);
+        else say(ok?"Prompt copy aachu ✅ "+name+" open aachu. Message box-la paste pannunga.":name+" open aachu. Copy aagala, 'Copy Prompt' tap pannunga.",!ok);
+      });
+    };
+  });
+
+  function chips(box,list,key){
+    box.innerHTML="";
+    list.forEach(function(o){
+      var b=document.createElement("button");b.type="button";b.className="chip";b.textContent=o.n;
+      b.setAttribute("role","radio");b.setAttribute("aria-checked",String(S[key]===o.id));
+      b.onclick=function(){S[key]=o.id;chips(box,list,key);build()};box.appendChild(b);
+    });
+  }
+  ["o1","o2","o3","o4"].forEach(function(i){$(i).addEventListener("change",build)});
+  $("doubt").addEventListener("input",build);
+  $("q").addEventListener("input",list);
+  chips($("lang"),LANG,"lang");chips($("dev"),DEV,"dev");deptChips();list();
+
+  /* ?t=Project Title preselects ONLY if it is a real LONY project */
+  var m=/[?&]t=([^&]+)/.exec(location.search);
+  if(m){
+    var t="";try{t=decodeURIComponent(m[1].replace(/\+/g," "))}catch(e){}
+    var hit=P.filter(function(p){return p.t===t})[0];
+    if(hit)choose(hit);
+    else{var nf=$("nf");nf.textContent="Andha project LONY list-la illa. Keela irundhu select pannunga.";nf.style.display="block"}
+  }
+})();
+</script>
+</body>
+</html>
