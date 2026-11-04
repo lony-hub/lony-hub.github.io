@@ -198,7 +198,7 @@ export function mountNav() {
     ".lauth a,.lauth button{font:inherit;font-size:.82rem;font-weight:700;cursor:pointer;border-radius:50px;padding:7px 14px;border:1px solid rgba(var(--a-rgb),.45);background:rgba(var(--a-rgb),.12);color:var(--a-soft,#818cf8);text-decoration:none;white-space:nowrap}" +
     ".lauth a:hover,.lauth button:hover{background:rgba(var(--a-rgb),.22)}" +
     ".lauth a:focus-visible,.lauth button:focus-visible{outline:2px solid var(--a-soft,#818cf8);outline-offset:2px}" +
-    ".lauth img{width:28px;height:28px;border-radius:50%;border:1px solid var(--border-subtle)}" +
+    ".lauth img,.lauth .lavt{width:40px;height:40px;flex:0 0 40px;border-radius:50%;border:1px solid var(--border-subtle);object-fit:cover}"+".lauth .lavt{display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.05rem;line-height:1;background:rgba(var(--a-rgb),.25);color:var(--text-main)}" +
     ".lauth a.lav{padding:0;border:none;background:none;border-radius:50%;line-height:0}"+"@media(max-width:520px){.lauth{margin-left:6px;gap:6px}.lauth .lname,.lauth .lout{display:none}.lauth a{padding:6px 10px;font-size:.75rem}}";
   document.head.appendChild(st);
 
@@ -224,7 +224,11 @@ export function mountNav() {
       const img = document.createElement("img");
       img.src = u.photoURL; img.alt = ""; img.referrerPolicy = "no-referrer";
       pa.appendChild(img);
-    } else pa.textContent = "Profile";
+    } else {
+      const t = document.createElement("span"); t.className = "lavt";
+      t.textContent = (String(u.displayName || u.email || "P").trim()[0] || "P").toUpperCase();
+      pa.appendChild(t);
+    }
     slot.appendChild(pa);
     if (isAdminUser(u)) {
       const a = document.createElement("a");
@@ -238,4 +242,4 @@ export function mountNav() {
   };
   render(null);
   onUser(render);
-       }
+                   }
