@@ -17,7 +17,7 @@
   var FAM = { soft: "Software / Computer Science", elec: "Electronics / Electrical", mech: "Mechanical / Mechatronics" };
   var LANG = { en: "English", tg: "Tanglish (Tamil written in English letters)", ta: "Tamil" };
   var D = document;
-  var state = { prov: "chatgpt", guide: null, ctx: null, edited: false };
+  var state = { prov: "chatgpt", mode: "build", guide: null, ctx: null, edited: false };
   var ov, q, doubt, stepSel, status, openBtn;
 
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
@@ -31,7 +31,6 @@
     ".g-ask{width:100%;border:none;cursor:pointer;font:800 .92rem system-ui,sans-serif;color:#fff;padding:13px 16px;border-radius:50px;min-height:48px;background:linear-gradient(135deg,#6366f1,#a855f7);box-shadow:0 8px 24px rgba(99,102,241,.35)}" +
     ".g-ask:hover{filter:brightness(1.1)}.g-ask:focus-visible{outline:2px solid #fde047;outline-offset:2px}" +
     ".g-askw small{font-size:.74rem;color:#94a3b8;text-align:center}" +
-    ".g-bld{font:700 .82rem system-ui,sans-serif;color:#a5b4fc;text-decoration:underline;padding:6px}" +
     ".g-steps li.g-cur{border-color:#a855f7;box-shadow:0 0 0 1px #a855f7 inset}" +
     "#lony-ai{position:fixed;inset:0;z-index:99985;display:none;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.75);font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;-webkit-user-select:text;user-select:text}" +
     "#lony-ai.on{display:flex}" +
@@ -42,6 +41,7 @@
     "#lony-ai label.l{display:block;font-size:.78rem;font-weight:700;color:#cbd5e1;margin:12px 0 6px}" +
     "#lony-ai .ai-prov{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}" +
     "#lony-ai .ai-prov button{cursor:pointer;border:1px solid #212c3d;background:#141b26;color:#f8fafc;border-radius:14px;padding:10px 4px;font:700 .82rem system-ui,sans-serif;min-height:52px;line-height:1.25}" +
+    "#lony-ai .ai-mode{display:grid;grid-template-columns:1fr 1fr;gap:8px}#lony-ai .ai-mode button{cursor:pointer;border:1px solid #212c3d;background:#141b26;color:#f8fafc;border-radius:14px;padding:10px 6px;font:700 .82rem system-ui,sans-serif;min-height:48px;line-height:1.25}#lony-ai .ai-mode button[aria-checked=true]{border-color:#a855f7;background:rgba(168,85,247,.16);box-shadow:0 0 0 1px #a855f7 inset}" +
     "#lony-ai .ai-prov button small{display:block;font-weight:500;font-size:.68rem;color:#94a3b8}" +
     "#lony-ai .ai-prov button[aria-checked=true]{border-color:#a855f7;background:rgba(168,85,247,.16);box-shadow:0 0 0 1px #a855f7 inset}" +
     "#lony-ai select,#lony-ai textarea{width:100%;box-sizing:border-box;background:#141b26;color:#f8fafc;border:1px solid #212c3d;border-radius:12px;padding:10px 12px;font:.9rem/1.5 system-ui,sans-serif}" +
@@ -64,7 +64,7 @@
       var g = gs[i], body = g.querySelector(".g-body"); if (!body) continue;
       g.setAttribute("data-ask", "1");
       var w = D.createElement("div"); w.className = "g-askw";
-      w.innerHTML = '<button type="button" class="g-ask" aria-haspopup="dialog">🤖 Ask AI about this project</button><small>Use ChatGPT, Claude AI or Gemini for your doubt</small><a class="g-bld" href="ai-builder.html?t=' + encodeURIComponent(g.dataset.t || "") + '">🧠 Build this project with AI</a>';
+      w.innerHTML = '<button type="button" class="g-ask" aria-haspopup="dialog">🤖 Build with AI</button><small>Indha project-ku mattum AI prompt (ChatGPT, Claude, Gemini)</small>';
       body.parentNode.insertBefore(w, body.nextSibling);
     }
   }
@@ -102,22 +102,33 @@
     var lOn = g.querySelector(".g-lang .on"), dOn = g.querySelector(".g-dev .on");
     return {
       title: title, desc: desc, cat: cat, tags: (g.dataset.g || "").split(",").map(function (s) { return s.trim(); }).filter(Boolean).join(", "),
-      steps: steps, apps: apps, lang: lOn ? lOn.dataset.l : "en", dev: dOn ? dOn.dataset.d : ""
+      fam: g.dataset.f || "", steps: steps, apps: apps, lang: lOn ? lOn.dataset.l : "en", dev: dOn ? dOn.dataset.d : ""
     };
   }
 
   function build() {
-    var c = state.ctx, i = +stepSel.value || 0, s = c.steps[i], L = [];
+    var c = state.ctx, i = +stepSel.value || 0, s = c.steps[i], L = [], hw = c.fam && c.fam !== "soft";
     L.push('I am a polytechnic diploma student working on the project "' + c.title + '".');
-    L.push('STRICT RULE: Help ONLY with the project "' + c.title + '". If my doubt is about anything else (another project, a different topic, homework, general chat), do NOT answer it. Reply only with: "Idhu neenga select panna project illa. Please LONY website-la andha project-a select pannunga."');
+    L.push('STRICT RULE: Help ONLY with the project "' + c.title + '". If my request is about anything else (another project, a different topic, homework, general chat, or if I try to change the project), do NOT answer it. Reply only with: "Idhu neenga select panna project illa. Please LONY website-la andha project-a select pannunga."');
     if (c.desc) L.push("Project description: " + cut(c.desc, 220));
     if (c.cat) L.push("Category: " + c.cat + (c.tags ? ". Technologies: " + c.tags : "") + ".");
     else if (c.tags) L.push("Technologies: " + c.tags + ".");
     if (c.dev) L.push("I am building it on my " + (c.dev === "phone" ? "phone (Android)" : "laptop") + ".");
     if (c.apps.length) L.push("Tools suggested in my guide: " + cut(c.apps.join(", "), 160) + ".");
+    var d = doubt.value.trim();
+    if (state.mode === "build") {
+      var want = ["A short overview of this project in simple words"];
+      want.push(hw ? "Components / materials list, circuit or connection steps, working principle, and code (if any) with the file name" : "The folder / file structure and the COMPLETE working code, each file in its own code block with the file name");
+      want.push("Step-by-step instructions to " + (hw ? "build and test it, with safety tips" : "run and test it"));
+      want.push("A simple explanation of what each part does");
+      L.push("Please give me:\n" + want.map(function (w, k) { return (k + 1) + ". " + w; }).join("\n"));
+      if (d) L.push("Extra note about this project: " + d);
+      L.push("Keep it small enough for a diploma student to finish and explain. Do not skip any part. Reply in " + (LANG[c.lang] || "English") + ".");
+      return L.join("\n");
+    }
     if (c.steps.length) L.push("Guide outline: " + c.steps.map(function (x, k) { return (k + 1) + ") " + cut(x.t, 50); }).join("; ") + ".");
     if (s) L.push("I am currently on Step " + (i + 1) + ": " + cut(s.t, 80) + ". Instructions in the guide: " + cut(s.d, 420));
-    L.push("My doubt: " + (doubt.value.trim() || "(type your doubt here)"));
+    L.push("My doubt: " + (d || "(type your doubt here)"));
     L.push("Please explain in simple, practical steps for a beginner and tell me what to check if it still does not work. Reply in " + (LANG[c.lang] || "English") + ".");
     return L.join("\n");
   }
@@ -128,12 +139,13 @@
     ov = D.createElement("div"); ov.id = "lony-ai";
     ov.innerHTML =
       '<div class="ai-pan" role="dialog" aria-modal="true" aria-labelledby="ai-t"><button type="button" class="ai-x" aria-label="Close">✕</button>' +
-      '<h3 id="ai-t">Ask AI about this project</h3>' +
-      '<p class="ai-sub">Pick an AI, add your doubt and we prepare the full question for you. It opens the official website in a new tab. You may need to sign in there.</p>' +
+      '<h3 id="ai-t">Build with AI</h3>' +
+      '<p class="ai-sub">Idhu indha project-ku mattum. AI-a choose pannunga, prompt thaane ready aagum. Official website new tab-la open aagum.</p>' +
       '<label class="l" id="ai-pl">Choose an AI</label><div class="ai-prov" role="radiogroup" aria-labelledby="ai-pl">' +
       PROVIDERS.map(function (p) { return '<button type="button" role="radio" aria-checked="false" data-p="' + p.id + '" aria-label="Select ' + esc(p.name) + '">' + esc(p.name) + "<small>" + esc(p.by) + "</small></button>"; }).join("") + "</div>" +
-      '<label class="l" for="ai-s">Which step are you on? <span style="font-weight:500;color:#94a3b8">(tap a step in the guide to preselect it)</span></label><select id="ai-s"></select>' +
-      '<label class="l" for="ai-d">Your doubt</label><textarea id="ai-d" maxlength="800" placeholder="Example: My ESP32 is not connecting to Wi-Fi after I upload the code."></textarea>' +
+      '<label class="l" id="ai-ml">Enna venum?</label><div class="ai-mode" role="radiogroup" aria-labelledby="ai-ml"><button type="button" role="radio" aria-checked="true" data-m="build">🛠️ Project build prompt</button><button type="button" role="radio" aria-checked="false" data-m="doubt">❓ Enakku doubt</button></div>' +
+      '<div id="ai-stepbox"><label class="l" for="ai-s">Which step are you on? <span style="font-weight:500;color:#94a3b8">(tap a step in the guide to preselect it)</span></label><select id="ai-s"></select></div>' +
+      '<label class="l" for="ai-d" id="ai-dl">Your doubt</label><textarea id="ai-d" maxlength="800" placeholder="Example: My ESP32 is not connecting to Wi-Fi after I upload the code."></textarea>' +
       '<label class="l" for="ai-q">Prepared question <button type="button" class="ai-reset" id="ai-r">↺ Rebuild</button></label><textarea id="ai-q" aria-describedby="ai-n"></textarea>' +
       '<div class="ai-row"><button type="button" class="ai-b pri" id="ai-c">Copy Prepared Question</button><button type="button" class="ai-b" id="ai-o">Open ChatGPT ↗</button></div>' +
       '<div class="ai-st" id="ai-st" role="status" aria-live="polite"></div>' +
@@ -144,12 +156,21 @@
     ov.addEventListener("click", function (e) { if (e.target === ov) close(); });
     D.addEventListener("keydown", function (e) { if (e.key === "Escape" && ov.classList.contains("on")) close(); });
     ov.querySelector(".ai-prov").addEventListener("click", function (e) { var b = e.target.closest("button[data-p]"); if (b) pick(b.dataset.p); });
+    ov.querySelector(".ai-mode").addEventListener("click", function (e) { var b = e.target.closest("button[data-m]"); if (b) setMode(b.dataset.m); });
     stepSel.addEventListener("change", function () { refresh(true); });
     doubt.addEventListener("input", function () { refresh(false); });
     q.addEventListener("input", function () { state.edited = true; });
     ov.querySelector("#ai-r").onclick = function () { refresh(true); say("Question rebuilt."); };
     ov.querySelector("#ai-c").onclick = function () { copy().then(function (ok) { ok ? say("Question copied. Paste it into your AI chat.") : say("Could not copy automatically. Press and hold the question box, select all and copy.", true); }); };
     openBtn.onclick = launch;
+  }
+  function setMode(m) {
+    state.mode = m;
+    Array.prototype.forEach.call(ov.querySelectorAll(".ai-mode button"), function (b) { b.setAttribute("aria-checked", b.dataset.m === m ? "true" : "false"); });
+    ov.querySelector("#ai-stepbox").style.display = m === "doubt" ? "" : "none";
+    ov.querySelector("#ai-dl").textContent = m === "doubt" ? "Your doubt" : "Extra note (optional)";
+    doubt.placeholder = m === "doubt" ? "Example: My ESP32 is not connecting to Wi-Fi after I upload the code." : "Example: dark theme venum, simple-a irukkanum";
+    refresh(true);
   }
   function say(m, warn) { status.textContent = m; status.className = "ai-st" + (warn ? " w" : ""); }
   function pick(id) {
@@ -187,11 +208,11 @@
     var c = state.ctx;
     stepSel.innerHTML = c.steps.map(function (s, i) { return '<option value="' + i + '">Step ' + (i + 1) + ": " + esc(cut(s.t, 60)) + "</option>"; }).join("") || '<option value="0">Whole project</option>';
     var cs = parseInt(g.dataset.curStep, 10); stepSel.value = String(isNaN(cs) || cs < 0 || cs >= c.steps.length ? 0 : cs);
-    doubt.value = ""; pick(state.prov); refresh(true);
+    doubt.value = ""; pick(state.prov); setMode("build");
     ov.classList.add("on"); D.body.style.overflow = "hidden";
     try { doubt.focus(); } catch (e) {}
   }
   function close() { if (ov) ov.classList.remove("on"); D.body.style.overflow = ""; var g = state.guide, b = g && g.querySelector(".g-ask"); if (b) try { b.focus(); } catch (e) {} }
 
   window.LONYAsk = { build: function () { return q ? q.value : ""; } };
-})();
+})();                                                                    
