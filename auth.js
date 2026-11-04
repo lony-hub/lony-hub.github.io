@@ -194,17 +194,17 @@ export function mountNav() {
   if (!anchor) return;
   const st = document.createElement("style");
   st.textContent =
-    ".lauth{display:flex;align-items:center;gap:8px;margin-left:auto;margin-right:10px}" +
+    "#tbtn{margin-left:auto}.lauth{display:flex;align-items:center;gap:8px;margin-left:10px}" +
     ".lauth a,.lauth button{font:inherit;font-size:.82rem;font-weight:700;cursor:pointer;border-radius:50px;padding:7px 14px;border:1px solid rgba(var(--a-rgb),.45);background:rgba(var(--a-rgb),.12);color:var(--a-soft,#818cf8);text-decoration:none;white-space:nowrap}" +
     ".lauth a:hover,.lauth button:hover{background:rgba(var(--a-rgb),.22)}" +
     ".lauth a:focus-visible,.lauth button:focus-visible{outline:2px solid var(--a-soft,#818cf8);outline-offset:2px}" +
     ".lauth img{width:28px;height:28px;border-radius:50%;border:1px solid var(--border-subtle)}" +
-    ".lauth a.lav{padding:0;border:none;background:none;border-radius:50%;line-height:0}"+"@media(max-width:520px){.lauth{margin-right:6px;gap:6px}.lauth .lname,.lauth .lout{display:none}.lauth a{padding:6px 10px;font-size:.75rem}}";
+    ".lauth a.lav{padding:0;border:none;background:none;border-radius:50%;line-height:0}"+"@media(max-width:520px){.lauth{margin-left:6px;gap:6px}.lauth .lname,.lauth .lout{display:none}.lauth a{padding:6px 10px;font-size:.75rem}}";
   document.head.appendChild(st);
 
   const slot = document.createElement("div");
   slot.className = "lauth";
-  anchor.parentNode.insertBefore(slot, anchor);
+  anchor.parentNode.insertBefore(slot, anchor.nextSibling);
 
   const render = (u) => {
     slot.textContent = "";
@@ -238,4 +238,4 @@ export function mountNav() {
   };
   render(null);
   onUser(render);
-}
+       }
