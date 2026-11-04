@@ -31,6 +31,7 @@
     ".g-ask{width:100%;border:none;cursor:pointer;font:800 .92rem system-ui,sans-serif;color:#fff;padding:13px 16px;border-radius:50px;min-height:48px;background:linear-gradient(135deg,#6366f1,#a855f7);box-shadow:0 8px 24px rgba(99,102,241,.35)}" +
     ".g-ask:hover{filter:brightness(1.1)}.g-ask:focus-visible{outline:2px solid #fde047;outline-offset:2px}" +
     ".g-askw small{font-size:.74rem;color:#94a3b8;text-align:center}" +
+    ".g-bld{font:700 .82rem system-ui,sans-serif;color:#a5b4fc;text-decoration:underline;padding:6px}" +
     ".g-steps li.g-cur{border-color:#a855f7;box-shadow:0 0 0 1px #a855f7 inset}" +
     "#lony-ai{position:fixed;inset:0;z-index:99985;display:none;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.75);font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;-webkit-user-select:text;user-select:text}" +
     "#lony-ai.on{display:flex}" +
@@ -63,7 +64,7 @@
       var g = gs[i], body = g.querySelector(".g-body"); if (!body) continue;
       g.setAttribute("data-ask", "1");
       var w = D.createElement("div"); w.className = "g-askw";
-      w.innerHTML = '<button type="button" class="g-ask" aria-haspopup="dialog">🤖 Ask AI about this project</button><small>Use ChatGPT, Claude AI or Gemini for your doubt</small>';
+      w.innerHTML = '<button type="button" class="g-ask" aria-haspopup="dialog">🤖 Ask AI about this project</button><small>Use ChatGPT, Claude AI or Gemini for your doubt</small><a class="g-bld" href="ai-builder.html?t=' + encodeURIComponent(g.dataset.t || "") + '">🧠 Build this project with AI</a>';
       body.parentNode.insertBefore(w, body.nextSibling);
     }
   }
@@ -108,6 +109,7 @@
   function build() {
     var c = state.ctx, i = +stepSel.value || 0, s = c.steps[i], L = [];
     L.push('I am a polytechnic diploma student working on the project "' + c.title + '".');
+    L.push('STRICT RULE: Help ONLY with the project "' + c.title + '". If my doubt is about anything else (another project, a different topic, homework, general chat), do NOT answer it. Reply only with: "Idhu neenga select panna project illa. Please LONY website-la andha project-a select pannunga."');
     if (c.desc) L.push("Project description: " + cut(c.desc, 220));
     if (c.cat) L.push("Category: " + c.cat + (c.tags ? ". Technologies: " + c.tags : "") + ".");
     else if (c.tags) L.push("Technologies: " + c.tags + ".");
