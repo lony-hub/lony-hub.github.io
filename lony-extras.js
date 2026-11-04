@@ -230,4 +230,76 @@
     net.className = "lx-net " + kind; netMsg.textContent = msg; netBtn.style.display = btn ? "" : "none";
     requestAnimationFrame(function () { net.classList.add("on"); });
   }
-  function hideNet() { if (net) net.classList.
+  function hideNet() { if (net) net.classList.remove("on"); }
+  function ping() {
+    /* tiny same-origin file; HEAD + no-store so a cached copy can't fake "online" */
+    var ctl = window.AbortController ? new AbortController() : null, t = setTimeout(function () { ctl && ctl.abort(); }, 7000);
+    return fetch("videos.js?_=" + Date.now(), { method: "HEAD", cache: "no-store", signal: ctl ? ctl.signal : undefined })
+      .then(function (r) { clearTimeout(t); return r.ok || r.status < 500; }, function () { clearTimeout(t); return false; });
+  }
+  function goOffline() {
+    wasOffline = true; showNet("off", "You are offline. Some features need internet.", true);
+    document.dispatchEvent(new CustomEvent("lony:offline"));
+  }
+  function goOnline(silent) {
+    hideNet();
+    if (wasOffline) { wasOffline = false; if (!silent) toast("Back online ✅"); document.dispatchEvent(new CustomEvent("lony:online")); }
+    slowCheck();
+  }
+  function retry() {
+    netBtn.disabled = true; netBtn.textContent = "Checking…";
+    ping().then(function (ok) {
+      netBtn.disabled = false; netBtn.textContent = "Retry Connection";
+      if (ok) goOnline(); else showNet("off", navigator.onLine ? "Connected, but LONY can't be reached right now." : "Still offline. Check Wi-Fi or mobile data.", true);
+    });
+  }
+  function slowCheck() {
+    /* Network Information API exists only in some browsers: warn only when it reports 2G-class speed. */
+    var c = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    if (!c || wasOffline) return;
+    if (/^(slow-2g|2g)$/.test(c.effectiveType || "")) {
+      if (!sessionStorage.getItem("lx_slow_x")) {
+        showNet("slow", "Slow connection detected. Pages may take longer to load.", false);
+        netTimer = setTimeout(hideNet, 6000);
+      }
+    }
+  }
+  window.addEventListener("offline", goOffline);
+  window.addEventListener("online", function () { ping().then(function (ok) { if (ok) goOnline(); else showNet("off", "Connected, but LONY can't be reached right now.", true); }); });
+  try { var cn = navigator.connection; if (cn && cn.addEventListener) cn.addEventListener("change", slowCheck); } catch (e) {}
+  window.LONYNet = { online: function () { return navigator.onLine !== false && !wasOffline; }, retry: function () { if (!net) buildNet(); retry(); } };
+
+  /* =========================================================
+     5) TOAST + FOOTER LINKS + START
+     ========================================================= */
+  var toastEl, toastT;
+  function toast(msg, opt) {
+    if (!D.body) return;
+    opt = opt || {};
+    if (!toastEl) { toastEl = el("div", "lx-toast"); toastEl.setAttribute("role", "status"); D.body.appendChild(toastEl); }
+    toastEl.textContent = msg;
+    if (opt.href) { var a = el("a"); a.href = opt.href; a.textContent = opt.label || "View"; toastEl.appendChild(a); }
+    toastEl.classList.add("on"); clearTimeout(toastT);
+    toastT = setTimeout(function () { toastEl.classList.remove("on"); }, opt.ms || 3200);
+  }
+  function footerLinks() {
+    if (NO_FOOTER) return;
+    var f = D.querySelector("footer");
+    var needPriv = !D.querySelector('a[href="privacy.html"]');
+    var html = (needPriv ? '<a href="privacy.html">Privacy Policy</a> · ' : "") + '<button type="button" data-cookie-settings>Cookie Preferences</button>';
+    if (!f) { f = el("footer", "lx-ft", "<div>© 2026 LONY Projects</div>"); D.body.appendChild(f); }
+    if (f.querySelector("[data-cookie-settings]")) return;
+    var p = el("p", "lx-fl", html);
+    (f.querySelector(".container,.wrap") || f).appendChild(p);
+  }
+  onReady(function () {
+    footerLinks(); activateScripts();
+    if (navigator.onLine === false) goOffline(); else slowCheck();
+    if (!consent) {
+      /* show the choice after the loader is gone so it is never hidden behind it */
+      var go = function () { setTimeout(showBanner, 300); };
+      if (ldDone) go(); else document.addEventListener("lony:ready", go, { once: true });
+    }
+  });
+  window.LONYX = { toast: toast, hideLoader: hideLoader };
+})();
