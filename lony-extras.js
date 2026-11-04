@@ -28,10 +28,16 @@
     "@keyframes lxfloat{50%{transform:translateY(-6px);box-shadow:0 0 0 1px rgba(255,255,255,.1),0 20px 50px rgba(168,85,247,.5)}}",
     ".lx-word{font-weight:800;letter-spacing:.14em;font-size:1.25rem;background:linear-gradient(110deg,var(--lx-a),var(--lx-c),#fff,var(--lx-b),var(--lx-a));background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:lxshine 2.6s linear infinite}",
     "@keyframes lxshine{to{background-position:200% center}}",
+    ".lx-logo{position:relative;overflow:hidden;line-height:0}",
+    ".lx-logo img{height:clamp(80px,22vw,120px);width:auto;max-width:70vw;display:block;animation:lxfloat2 2.2s ease-in-out infinite,lxglow 2.2s ease-in-out infinite}",
+    ".lx-logo::after{content:'';position:absolute;inset:0;background:linear-gradient(120deg,transparent 35%,rgba(255,255,255,.95) 50%,transparent 65%);background-size:250% 100%;background-position:150% 0;-webkit-mask:url(lony-logo.png) center/contain no-repeat;mask:url(lony-logo.png) center/contain no-repeat;animation:lxlogoshine 2.6s ease-in-out infinite;pointer-events:none}",
+    "@keyframes lxglow{0%,100%{filter:drop-shadow(0 0 6px rgba(99,102,241,.7)) drop-shadow(0 0 16px rgba(168,85,247,.4))}50%{filter:drop-shadow(0 0 14px rgba(99,102,241,1)) drop-shadow(0 0 32px rgba(6,182,212,.75))}}",
+    "@keyframes lxfloat2{50%{transform:translateY(-6px)}}",
+    "@keyframes lxlogoshine{0%{background-position:150% 0}60%,100%{background-position:-50% 0}}",
     ".lx-sub{font-size:.8rem;color:var(--lx-mu);margin-top:-8px}",
     ".lx-bar{width:min(240px,64vw);height:5px;border-radius:9px;background:rgba(148,163,184,.2);overflow:hidden}",
     ".lx-bar i{display:block;height:100%;width:100%;border-radius:9px;background:linear-gradient(90deg,var(--lx-a),var(--lx-c));transform-origin:left;transform:scaleX(.08);transition:transform .35s ease}",
-    "@media(prefers-reduced-motion:reduce){.lx-mark,.lx-word{animation:none}#lony-ld,.lx-bar i{transition:none}}",
+    "@media(prefers-reduced-motion:reduce){.lx-mark,.lx-word,.lx-logo img,.lx-logo::after{animation:none}#lony-ld,.lx-bar i{transition:none}}",
     /* banners / toasts */
     ".lx-net{position:fixed;left:0;right:0;top:0;z-index:99990;display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;padding:calc(10px + env(safe-area-inset-top,0px)) 14px 10px;font:600 .85rem/1.4 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:#fff;transform:translateY(-110%);transition:transform .3s ease}",
     ".lx-net.on{transform:none}.lx-net.off{background:#b91c1c}.lx-net.slow{background:#b45309}.lx-net.ok{background:#047857}",
@@ -73,7 +79,7 @@
   /* =========================================================
      1) LOADING SCREEN  (stage based progress, no fake delay)
      ========================================================= */
-  var ld = el("div", "", '<div class="lx-mark" aria-hidden="true">L</div><div class="lx-word">LONY</div><div class="lx-sub">Loading your projects…</div><div class="lx-bar" aria-hidden="true"><i></i></div>');
+  var ld = el("div", "", '<div class="lx-logo"><img src="lony-logo.png" alt="LONY" onerror="this.parentNode.outerHTML=\'&lt;div class=&quot;lx-mark&quot; aria-hidden=&quot;true&quot;&gt;L&lt;/div&gt;&lt;div class=&quot;lx-word&quot;&gt;LONY&lt;/div&gt;\'"></div><div class="lx-sub">Loading your projects…</div><div class="lx-bar" aria-hidden="true"><i></i></div>');
   ld.id = "lony-ld"; ld.setAttribute("role", "status"); ld.setAttribute("aria-live", "polite"); ld.setAttribute("aria-label", "Loading LONY Projects");
   R.appendChild(ld);
   var bar = ld.querySelector(".lx-bar i"), ldDone = false;
@@ -224,76 +230,4 @@
     net.className = "lx-net " + kind; netMsg.textContent = msg; netBtn.style.display = btn ? "" : "none";
     requestAnimationFrame(function () { net.classList.add("on"); });
   }
-  function hideNet() { if (net) net.classList.remove("on"); }
-  function ping() {
-    /* tiny same-origin file; HEAD + no-store so a cached copy can't fake "online" */
-    var ctl = window.AbortController ? new AbortController() : null, t = setTimeout(function () { ctl && ctl.abort(); }, 7000);
-    return fetch("videos.js?_=" + Date.now(), { method: "HEAD", cache: "no-store", signal: ctl ? ctl.signal : undefined })
-      .then(function (r) { clearTimeout(t); return r.ok || r.status < 500; }, function () { clearTimeout(t); return false; });
-  }
-  function goOffline() {
-    wasOffline = true; showNet("off", "You are offline. Some features need internet.", true);
-    document.dispatchEvent(new CustomEvent("lony:offline"));
-  }
-  function goOnline(silent) {
-    hideNet();
-    if (wasOffline) { wasOffline = false; if (!silent) toast("Back online ✅"); document.dispatchEvent(new CustomEvent("lony:online")); }
-    slowCheck();
-  }
-  function retry() {
-    netBtn.disabled = true; netBtn.textContent = "Checking…";
-    ping().then(function (ok) {
-      netBtn.disabled = false; netBtn.textContent = "Retry Connection";
-      if (ok) goOnline(); else showNet("off", navigator.onLine ? "Connected, but LONY can't be reached right now." : "Still offline. Check Wi-Fi or mobile data.", true);
-    });
-  }
-  function slowCheck() {
-    /* Network Information API exists only in some browsers: warn only when it reports 2G-class speed. */
-    var c = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-    if (!c || wasOffline) return;
-    if (/^(slow-2g|2g)$/.test(c.effectiveType || "")) {
-      if (!sessionStorage.getItem("lx_slow_x")) {
-        showNet("slow", "Slow connection detected. Pages may take longer to load.", false);
-        netTimer = setTimeout(hideNet, 6000);
-      }
-    }
-  }
-  window.addEventListener("offline", goOffline);
-  window.addEventListener("online", function () { ping().then(function (ok) { if (ok) goOnline(); else showNet("off", "Connected, but LONY can't be reached right now.", true); }); });
-  try { var cn = navigator.connection; if (cn && cn.addEventListener) cn.addEventListener("change", slowCheck); } catch (e) {}
-  window.LONYNet = { online: function () { return navigator.onLine !== false && !wasOffline; }, retry: function () { if (!net) buildNet(); retry(); } };
-
-  /* =========================================================
-     5) TOAST + FOOTER LINKS + START
-     ========================================================= */
-  var toastEl, toastT;
-  function toast(msg, opt) {
-    if (!D.body) return;
-    opt = opt || {};
-    if (!toastEl) { toastEl = el("div", "lx-toast"); toastEl.setAttribute("role", "status"); D.body.appendChild(toastEl); }
-    toastEl.textContent = msg;
-    if (opt.href) { var a = el("a"); a.href = opt.href; a.textContent = opt.label || "View"; toastEl.appendChild(a); }
-    toastEl.classList.add("on"); clearTimeout(toastT);
-    toastT = setTimeout(function () { toastEl.classList.remove("on"); }, opt.ms || 3200);
-  }
-  function footerLinks() {
-    if (NO_FOOTER) return;
-    var f = D.querySelector("footer");
-    var needPriv = !D.querySelector('a[href="privacy.html"]');
-    var html = (needPriv ? '<a href="privacy.html">Privacy Policy</a> · ' : "") + '<button type="button" data-cookie-settings>Cookie Preferences</button>';
-    if (!f) { f = el("footer", "lx-ft", "<div>© 2026 LONY Projects</div>"); D.body.appendChild(f); }
-    if (f.querySelector("[data-cookie-settings]")) return;
-    var p = el("p", "lx-fl", html);
-    (f.querySelector(".container,.wrap") || f).appendChild(p);
-  }
-  onReady(function () {
-    footerLinks(); activateScripts();
-    if (navigator.onLine === false) goOffline(); else slowCheck();
-    if (!consent) {
-      /* show the choice after the loader is gone so it is never hidden behind it */
-      var go = function () { setTimeout(showBanner, 300); };
-      if (ldDone) go(); else document.addEventListener("lony:ready", go, { once: true });
-    }
-  });
-  window.LONYX = { toast: toast, hideLoader: hideLoader };
-})();
+  function hideNet() { if (net) net.classList.
