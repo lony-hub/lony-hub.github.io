@@ -20,3 +20,4 @@
 - Ask AI URL prefill is OFF for all three providers (copy question + open official site). Enable per provider in `PROVIDERS` in `askai.js` only if the provider documents it.
 - Optional storage keys (`lony_theme`, `lony_glang`, `lony_gdev`, `lony_email`) are written only after the user allows "Preferences".
 - Optional third-party scripts must use: `<script type="text/plain" data-lony-consent="analytics" data-src="..."></script>`
+site redeploy-5 nov 2026
