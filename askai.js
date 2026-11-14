@@ -214,5 +214,5 @@
   }
   function close() { if (ov) ov.classList.remove("on"); D.body.style.overflow = ""; var g = state.guide, b = g && g.querySelector(".g-ask"); if (b) try { b.focus(); } catch (e) {} }
 
-  window.LONYAsk = { build: function () { return q ? q.value : ""; } };
-})();                                                                    
+  window.LONYAsk = { build: function () { return q ? q.value : ""; }, open: function (g) { open(g || D.querySelector(".guide")); } };
+})();
