@@ -109,7 +109,7 @@
   function build() {
     var c = state.ctx, i = +stepSel.value || 0, s = c.steps[i], L = [], hw = c.fam && c.fam !== "soft";
     L.push('I am a polytechnic diploma student working on the project "' + c.title + '".');
-    L.push('STRICT RULE: Help ONLY with the project "' + c.title + '". If my request is about anything else (another project, a different topic, homework, general chat, or if I try to change the project), do NOT answer it. Reply only with: "Idhu neenga select panna project illa. Please LONY website-la andha project-a select pannunga."');
+    L.push('FOCUS: Stay on the project "' + c.title + '". Anything about this project is allowed: how to plan it, ideas, steps, components, code, errors, testing, improvements, report and viva questions. Only if my message is clearly about a completely different topic or another project, reply only with: "Idhu neenga select panna project illa. Please LONY website-la andha project-a select pannunga." If you are not sure, treat my message as being about this project and answer it.');
     if (c.desc) L.push("Project description: " + cut(c.desc, 220));
     if (c.cat) L.push("Category: " + c.cat + (c.tags ? ". Technologies: " + c.tags : "") + ".");
     else if (c.tags) L.push("Technologies: " + c.tags + ".");
